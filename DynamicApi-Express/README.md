@@ -1,0 +1,258 @@
+# DynamicApi-Express - Node.js Implementation
+
+## Overview
+This is a Node.js Express implementation of the Dynamic API that executes stored procedures dynamically with MySQL. Execute any allowed stored procedure with flexible parameters without authentication.
+
+## Technologies Used
+- **Framework**: Express.js
+- **Database**: MySQL 5.7+
+- **Database Driver**: mysql2/promise
+- **Documentation**: Swagger/OpenAPI
+- **CORS**: Cross-Origin Resource Sharing enabled
+- **Environment**: Dotenv for configuration
+
+## Project Architecture
+
+### Layered Architecture
+- **HTTP Layer**: Express.js application setup and middleware
+- **Routes Layer**: API endpoint definitions with Swagger documentation
+- **Controllers Layer**: HTTP request/response handling
+- **Services Layer**: Business logic and orchestration
+- **Database Layer**: Stored procedure execution with parameterized queries
+- **Middleware Layer**: Error handling and cross-cutting concerns
+- **Utilities Layer**: Logging and helper functions
+
+### Project Structure
+```
+DynamicApi-Express/
+├── src/
+│   ├── index.js                          # Application entry point
+│   ├── config/
+│   │   ├── database.js                   # Database configuration
+│   │   ├── environment.js                # Environment settings
+│   │   └── swagger.js                    # Swagger/OpenAPI spec
+│   ├── routes/
+│   │   └── apiRoutes.js                  # API endpoint definitions
+│   ├── controllers/
+│   │   └── dynamicApiController.js       # Request handlers
+│   ├── services/
+│   │   ├── dynamicApiService.js          # Business logic
+│   │   └── storedProcedureExecutor.js    # Database executor
+│   ├── middleware/
+│   │   └── errorHandler.js               # Error handling
+│   └── utils/
+│       └── logger.js                     # Logging utility
+├── database/
+│   └── setup.sql                         # Database schema
+├── package.json                          # Dependencies
+├── .env.example                          # Environment template
+├── .gitignore                            # Git ignore rules
+├── README.md                             # This file
+└── documentation.md                      # Detailed documentation
+```
+
+## Getting Started
+
+### Prerequisites
+- **Node.js**: 14.0+ (Recommended: 16+)
+- **MySQL**: 5.7+ (Recommended: 8.0+)
+- **npm**: 6.0+
+
+### Installation
+
+1. **Extract project**
+   ```bash
+   cd DynamicApi-Express
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Create environment file (.env)**
+   ```bash
+   cp .env.example .env
+   ```
+   Edit `.env` with your database credentials:
+   ```
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_NAME=DynamicApiDb
+   DB_USER=root
+   DB_PASSWORD=your_password
+   PORT=3000
+   NODE_ENV=development
+   ```
+
+4. **Create MySQL database**
+   ```bash
+   mysql -u root -p
+   CREATE DATABASE DynamicApiDb CHARACTER SET utf8mb4;
+   EXIT;
+   ```
+
+5. **Import database schema** (optional - for ExecutionLogs table)
+   ```bash
+   mysql -u root -p DynamicApiDb < database/setup.sql
+   ```
+
+6. **Start development server**
+   ```bash
+   npm start
+   ```
+   Server runs at: http://localhost:3000
+
+## Running the Application
+
+### Development
+```bash
+npm start
+```
+
+### Development with auto-reload
+```bash
+npm run dev
+```
+*(Requires nodemon - install with: npm install --save-dev nodemon)*
+
+## API Endpoints
+
+### Execute Stored Procedure
+- **URL**: `POST /api/v1.0/DynamicApi/DynamicApiExecute`
+- **Parameters**:
+  - `stringOne`: Parameter values (key=value format)
+  - `stringTwo`: Parameter separator (default: `|`)
+  - `stringThree`: Key-value separator (default: `=`)
+  - `stringFour`: Stored procedure name (required)
+
+### Health Check
+- **URL**: `GET /health`
+- **Description**: Returns server health status
+
+### API Documentation
+- **Swagger UI**: http://localhost:3000/api/v1.0/docs
+- **Swagger JSON**: http://localhost:3000/swagger.json
+
+## Request Example
+
+### Using curl
+```bash
+curl -X POST http://localhost:3000/api/v1.0/DynamicApi/DynamicApiExecute \
+  -H "Content-Type: application/json" \
+  -d '{
+    "stringOne": "p_ProductId=1|p_Category=Electronics",
+    "stringTwo": "|",
+    "stringThree": "=",
+    "stringFour": "GetProductById"
+  }'
+```
+
+### Response Example
+```json
+{
+  "status": true,
+  "message": "Success",
+  "data": [
+    {
+      "ProductId": 1,
+      "ProductName": "Laptop",
+      "Price": 50000
+    }
+  ]
+}
+```
+
+## Environment Variables
+
+### Required
+```
+DB_HOST=127.0.0.1          # MySQL host
+DB_PORT=3306               # MySQL port
+DB_NAME=DynamicApiDb       # Database name
+DB_USER=root               # MySQL user
+DB_PASSWORD=123456         # MySQL password
+```
+
+### Optional
+```
+PORT=3000                  # Server port (default: 3000)
+NODE_ENV=development       # Environment (development/production)
+```
+
+## Key Features
+
+- ✅ Dynamic stored procedure execution
+- ✅ Custom parameter separators
+- ✅ Parameterized queries (SQL injection safe)
+- ✅ Execution logging to database
+- ✅ Execution time tracking
+- ✅ Comprehensive error handling
+- ✅ Swagger/OpenAPI documentation
+- ✅ Health check endpoint
+- ✅ CORS enabled
+- ✅ Layered architecture
+- ✅ No authentication required
+
+## Documentation
+
+For detailed information, see [documentation.md](./documentation.md) which includes:
+- Complete setup instructions for Windows, macOS, Linux
+- Architecture overview
+- How to extend the application
+- Production deployment guide
+- Troubleshooting guide
+- Operational considerations
+
+## Security Notes
+
+- ⚠️ No authentication is enforced (designed for internal APIs only)
+- ✅ Parameterized queries prevent SQL injection
+- ✅ Input validation on procedure names
+- ✅ CORS configured
+- ⚠️ Not recommended for public-facing APIs without adding authentication
+
+## Architecture Benefits
+
+- **Separation of Concerns**: Each layer has a single responsibility
+- **Testability**: Components can be tested independently
+- **Maintainability**: Clear code organization
+- **Scalability**: Easy to add new features
+- **Reusability**: Utilities and services are reusable
+- **Error Handling**: Centralized error management
+
+## Troubleshooting
+
+### Server won't start
+- Check if port 3000 is already in use
+- Verify Node.js is installed: `node --version`
+- Verify npm packages installed: `npm list`
+
+### Database connection error
+- Verify MySQL is running
+- Check .env credentials match your MySQL setup
+- Ensure database exists: `SHOW DATABASES;`
+
+### Swagger endpoints not showing
+- Restart server after code changes
+- Check src/routes/apiRoutes.js has Swagger comments
+- Verify swagger.js points to correct files
+
+## License
+MIT
+
+## Contact
+For support or questions, contact: support@example.com
+
+DB_PASSWORD=123456
+DB_NAME=DynamicApiDb
+JWT_SECRET=your_secret_key
+NODE_ENV=development
+```
+
+## Documentation
+- API Documentation: `http://localhost:3000/api-docs`
+- Database Schema: See `database/` folder
+
+## License
+MIT

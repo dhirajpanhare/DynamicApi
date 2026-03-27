@@ -1,0 +1,66 @@
+# Node.js & npm
+node_modules/
+npm-debug.log*
+npm-error.log*
+yarn-debug.log*
+yarn-error.log*
+yarn-integrity
+.npm/
+.eslintcache
+.node_repl_history
+*.tgz
+
+# Build Output
+dist/
+build/
+out/
+output/
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
+.env.production.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+
+# OS Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Database
+*.db
+*.sqlite3
+*.sqlite3-journal
+
+# Package Lock Files (optional - uncomment if not tracking)
+# package-lock.json
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history
+
+# Temporary files
+*.tmp
+*.bak
+*.backup
+
