@@ -12,6 +12,10 @@ This repository contains three complete implementations of a Dynamic API system 
 2. **DynamicApi-Express** - Node.js Express
 3. **DynamicApi-Django** - Python Django
 
+4. **DynamicApi-Express-MongoDB** - Node.js Express + MongoDB (Dynamic NoSQL)
+
+All four implementations share a similar API contract, parameter handling mechanism, and response format, allowing seamless switching between platforms.
+
 All three implementations share the same API contract, parameter handling mechanism, and response format, allowing seamless switching between platforms.
 
 ---
@@ -41,12 +45,39 @@ backend/
 │   ├── requirements.txt
 │   └── README.md
 │
+├── DynamicApi-Express-MongoDB/     # Node.js + MongoDB (NoSQL, dynamic collections)
+│   ├── src/
+│   ├── package.json
+│   ├── .env.example
+│   ├── README.md
+│   └── MONGODB_IMPLEMENTATION.md
+│
 └── README.md                        # This file
 ```
 
 ---
 
 ## 🚀 Quick Start Guide
+
+### Option 4: MongoDB Dynamic API (Express.js)
+
+**Requirements**: Node.js 14+, MongoDB 4.0+
+
+**Quick Setup**:
+```bash
+cd DynamicApi-Express-MongoDB
+npm install
+cp .env.example .env
+# Edit .env with MongoDB connection string if needed
+npm run dev
+```
+
+**Access**:
+- API: http://localhost:3000/api/v1.0/DynamicApi/DynamicApiExecute (legacy)
+- API: http://localhost:3000/api/v1.0/DynamicApi/Operations (JSON)
+- Swagger: http://localhost:3000/api/docs
+
+---
 
 ### Choose Your Platform
 
@@ -220,6 +251,39 @@ POST /api/v1.0/DynamicApi/DynamicApiExecute
   "stringFour": "GetProductById"
 }
 ```
+
+#### MongoDB Dynamic API (Express.js + MongoDB)
+
+**JSON Format (recommended):**
+```json
+POST /api/v1.0/DynamicApi/Operations
+{
+  "operationType": "create",
+  "collectionName": "users",
+  "parameters": {
+    "documents": {
+      "name": "John Doe",
+      "email": "john@example.com",
+      "status": "active"
+    },
+    "isMultiple": false
+  }
+}
+```
+
+**Legacy String-Delimited Format:**
+```json
+POST /api/v1.0/DynamicApi/DynamicApiExecute
+{
+  "operationType": "create",
+  "collectionName": "users",
+  "parameters": "name=John Doe|email=john@example.com|age=30|city=New York",
+  "fieldDelimiter": "|",
+  "keyValueDelimiter": "="
+}
+```
+
+You can use either format for MongoDB. The string-delimited format is compatible with legacy clients and simple integrations. The JSON format is recommended for new development.
 
 ### Request Parameters
 
