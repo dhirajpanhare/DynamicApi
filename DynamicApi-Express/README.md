@@ -8,7 +8,7 @@ This is a Node.js Express implementation of the Dynamic API that executes stored
 - **Database**: MySQL 5.7+
 - **Database Driver**: mysql2/promise
 - **Documentation**: Swagger/OpenAPI
-- **CORS**: Cross-Origin Resource Sharing enabled
+ - **CORS**: Cross-Origin Resource Sharing enabled (http://localhost:3000, http://localhost:4200, http://localhost:8000)
 - **Environment**: Dotenv for configuration
 
 ## Project Architecture
@@ -52,6 +52,22 @@ DynamicApi-Express/
 ```
 
 ## Getting Started
+
+## CORS Configuration
+
+Add the following to your `.env` or as default in code:
+
+```
+CORS_ORIGINS=http://localhost:3000,http://localhost:4200,http://localhost:8000
+```
+
+## Frontend Redirection Example
+
+To redirect from an Express route to a frontend app:
+
+```js
+res.redirect('http://localhost:3000'); // or http://localhost:4200 for Angular
+```
 
 ### Prerequisites
 - **Node.js**: 14.0+ (Recommended: 16+)
@@ -135,6 +151,48 @@ npm run dev
 - **Swagger JSON**: http://localhost:3000/swagger.json
 
 ## Request Example
+
+## Frontend API Call Templates
+
+### React Example (axios)
+
+```jsx
+// src/apiCall.js
+import axios from 'axios';
+
+export async function callDynamicApi() {
+  const response = await axios.post('http://localhost:3000/api/v1.0/DynamicApi/DynamicApiExecute', {
+    stringOne: 'p_ContactId=5|p_Status=Active',
+    stringTwo: '|',
+    stringThree: '=',
+    stringFour: 'SP_GetContactData'
+  });
+  return response.data;
+}
+```
+
+### Angular Example (HttpClient)
+
+```typescript
+// src/app/api.service.ts
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+@Injectable({ providedIn: 'root' })
+export class ApiService {
+  constructor(private http: HttpClient) {}
+
+  callDynamicApi(): Observable<any> {
+    return this.http.post('http://localhost:3000/api/v1.0/DynamicApi/DynamicApiExecute', {
+      stringOne: 'p_ContactId=5|p_Status=Active',
+      stringTwo: '|',
+      stringThree: '=',
+      stringFour: 'SP_GetContactData'
+    });
+  }
+}
+```
 
 ### Using curl
 ```bash

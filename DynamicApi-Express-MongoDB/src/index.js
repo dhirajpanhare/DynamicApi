@@ -34,7 +34,7 @@ app.use(express.urlencoded({ limit: '10mb', extended: true }));
 // CORS middleware
 const corsOrigins = process.env.CORS_ORIGINS
   ? process.env.CORS_ORIGINS.split(',').map((origin) => origin.trim())
-  : ['http://localhost:3000', 'http://localhost:5000', 'http://localhost:8000'];
+  : ['http://localhost:3000', 'http://localhost:4200', 'http://localhost:5000', 'http://localhost:8000'];
 
 app.use(
   cors({
