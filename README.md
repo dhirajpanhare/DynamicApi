@@ -374,21 +374,47 @@ print(json.dumps(response.json(), indent=2))
 ```
 
 ### Using JavaScript
+#### Using Angular (HttpClient)
 
-```javascript
-fetch('http://localhost:PORT/api/v1.0/DynamicApi/DynamicApiExecute', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
+```typescript
+// src/app/api.service.ts
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+@Injectable({ providedIn: 'root' })
+export class ApiService {
+  constructor(private http: HttpClient) {}
+
+  callDynamicApi(): Observable<any> {
+    return this.http.post('http://localhost:PORT/api/v1.0/DynamicApi/DynamicApiExecute', {
+      stringOne: 'p_ProductId=1',
+      stringTwo: '|',
+      stringThree: '=',
+      stringFour: 'GetProductById'
+    });
+  }
+}
+```
+
+#### Using React (axios)
+
+```jsx
+// src/apiCall.js
+import axios from 'axios';
+
+export async function callDynamicApi() {
+  const response = await axios.post('http://localhost:PORT/api/v1.0/DynamicApi/DynamicApiExecute', {
     stringOne: 'p_ProductId=1',
     stringTwo: '|',
     stringThree: '=',
     stringFour: 'GetProductById'
-  })
-})
-.then(r => r.json())
-.then(data => console.log(data));
+  });
+  return response.data;
+}
 ```
+
+#### Using JavaScript (fetch)
 
 ---
 
