@@ -110,7 +110,7 @@ SPECTACULAR_SETTINGS = {
 # CORS Configuration
 CORS_ALLOWED_ORIGINS = config(
     'CORS_ORIGINS',
-    default='http://localhost:3000,http://localhost:8000',
+    default='http://localhost:3000,http://localhost:5173,http://localhost:4200,http://localhost:5173,http://localhost:8000',
     cast=lambda v: [s.strip() for s in v.split(',')]
 )
 

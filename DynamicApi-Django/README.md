@@ -250,14 +250,83 @@ REST_FRAMEWORK = {
 
 ### CORS Configuration
 
-Update allowed origins in `settings.py`:
+
+Update allowed origins in `settings.py` or `.env`:
 
 ```python
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-    'http://localhost:8000',
-    'https://yourdomain.com',
+        'http://localhost:3000',  # React
+        'http://localhost:4200',  # Angular
+        'http://localhost:8000',
+        'https://yourdomain.com',
 ]
+```
+
+Or in `.env`:
+
+```
+CORS_ORIGINS=http://localhost:3000,http://localhost:4200,http://localhost:8000,https://yourdomain.com
+```
+
+---
+
+### Frontend Redirection Example
+
+To redirect users from a Django backend endpoint to a frontend app (e.g., after login):
+
+```python
+from django.shortcuts import redirect
+from django.conf import settings
+
+def redirect_to_frontend(request):
+        frontend_url = 'http://localhost:3000'  # or http://localhost:4200 for Angular
+        return redirect(frontend_url)
+```
+
+Add this view to your `urls.py` as needed.
+
+---
+
+### Frontend API Call Templates
+
+#### React Example (fetch)
+
+```jsx
+// src/apiCall.js
+import axios from 'axios';
+
+export async function callDynamicApi() {
+    const response = await axios.post('http://localhost:8000/api/v1.0/DynamicApi/DynamicApiExecute', {
+        stringOne: 'p_ContactId=5|p_Status=Active',
+        stringTwo: '|',
+        stringThree: '=',
+        stringFour: 'SP_GetContactData'
+    });
+    return response.data;
+}
+```
+
+#### Angular Example (HttpClient)
+
+```typescript
+// src/app/api.service.ts
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+@Injectable({ providedIn: 'root' })
+export class ApiService {
+    constructor(private http: HttpClient) {}
+
+    callDynamicApi(): Observable<any> {
+        return this.http.post('http://localhost:8000/api/v1.0/DynamicApi/DynamicApiExecute', {
+            stringOne: 'p_ContactId=5|p_Status=Active',
+            stringTwo: '|',
+            stringThree: '=',
+            stringFour: 'SP_GetContactData'
+        });
+    }
+}
 ```
 
 ## Usage Examples

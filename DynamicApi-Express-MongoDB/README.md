@@ -168,13 +168,14 @@ NODE_ENV=development
 MONGODB_URI=mongodb://127.0.0.1:27017/dynamicapi
 
 # CORS
-CORS_ORIGINS=http://localhost:3000,http://localhost:5000,http://localhost:8000
+CORS_ORIGINS=http://localhost:3000,http://localhost:4200,http://localhost:5000,http://localhost:8000
 ```
 
 ### CORS Origins
 
 By default, the following origins are allowed:
-- `http://localhost:3000`
+- `http://localhost:3000` (React)
+- `http://localhost:4200` (Angular)
 - `http://localhost:5000`
 - `http://localhost:8000`
 
@@ -342,7 +343,58 @@ MongoDB connection error: connect ECONNREFUSED
 - Create collection if missing
 
 ### CORS Errors
-- Update `CORS_ORIGINS` in `.env`
+- Update `CORS_ORIGINS` in `.env` to include your frontend URLs (e.g., React, Angular)
+---
+
+## Frontend Redirection Example
+
+To redirect from an Express route to a frontend app:
+
+```js
+res.redirect('http://localhost:3000'); // or http://localhost:4200 for Angular
+```
+
+---
+
+## Frontend API Call Templates
+
+### React Example (axios)
+
+```jsx
+// src/apiCall.js
+import axios from 'axios';
+
+export async function callDynamicApi() {
+  const response = await axios.post('http://localhost:3000/api/v1.0/DynamicApi/DynamicApiExecute', {
+    operationType: 'read',
+    collectionName: 'users',
+    parameters: { filter: { status: 'active' } }
+  });
+  return response.data;
+}
+```
+
+### Angular Example (HttpClient)
+
+```typescript
+// src/app/api.service.ts
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+@Injectable({ providedIn: 'root' })
+export class ApiService {
+  constructor(private http: HttpClient) {}
+
+  callDynamicApi(): Observable<any> {
+    return this.http.post('http://localhost:3000/api/v1.0/DynamicApi/DynamicApiExecute', {
+      operationType: 'read',
+      collectionName: 'users',
+      parameters: { filter: { status: 'active' } }
+    });
+  }
+}
+```
 - Restart server: `npm run dev`
 
 ---
