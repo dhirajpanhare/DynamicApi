@@ -1,249 +1,274 @@
-# Dynamic API - Multi-Platform Implementation
+<div align="center">
 
-A comprehensive Dynamic API implementation across three major platforms: .NET, Node.js (Express), and Python (Django). Execute any stored procedure dynamically with flexible parameters without authentication.
+# 🚀 Dynamic API - Multi-Platform Implementation
 
----
+### Execute stored procedures dynamically across multiple platforms with a unified API contract
 
-## 📋 Project Overview
+[![.NET](https://img.shields.io/badge/.NET-8.0-512BD4?logo=dotnet)](./DynamicApi-Dotnet-MSSQL)
+[![Django](https://img.shields.io/badge/Django-4.2-092E20?logo=django)](./DynamicApi-Django-MSSQL)
+[![Express](https://img.shields.io/badge/Express-4.18-000000?logo=express)](./DynamicApi-Express-MSSQL)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-This repository contains three complete implementations of a Dynamic API system designed to execute stored procedures with custom parameters across different technology stacks:
+[Features](#-key-features) • [Quick Start](#-quick-start) • [Implementations](#-implementations) • [Documentation](#-documentation) • [API Reference](#-api-reference)
 
-1. **DynamicApi** - C# .NET 8.0
-2. **DynamicApi-Express** - Node.js Express
-3. **DynamicApi-Django** - Python Django
-
-4. **DynamicApi-Express-MongoDB** - Node.js Express + MongoDB (Dynamic NoSQL)
-
-All four implementations share a similar API contract, parameter handling mechanism, and response format, allowing seamless switching between platforms.
-
-All three implementations share the same API contract, parameter handling mechanism, and response format, allowing seamless switching between platforms.
+</div>
 
 ---
 
-## 🏗️ Repository Structure
+## 📋 Overview
+
+A comprehensive Dynamic API solution that enables execution of stored procedures and database operations across multiple technology stacks and database systems. Choose your preferred platform and database combination - all implementations share the same API contract for seamless integration.
+
+### 🎯 What Makes This Special?
+
+- **Multi-Platform Support**: .NET, Django (Python), Express (Node.js)
+- **Multi-Database Support**: MSSQL, MySQL, MongoDB
+- **Unified API Contract**: Same request/response format across all implementations
+- **Zero Configuration**: Execute any stored procedure without creating specific endpoints
+- **Production Ready**: Comprehensive logging, error handling, and Swagger documentation
+- **Frontend Ready**: CORS configured with examples for React, Angular, and Vue.js
+
+---
+
+## 🔥 Key Features
+
+<table>
+<tr>
+<td width="50%">
+
+### 🎨 Developer Experience
+- **Zero Endpoint Creation**: Execute any stored procedure without coding new endpoints
+- **Flexible Parameters**: Custom delimiters for parameter parsing
+- **Interactive Swagger UI**: Test APIs directly in browser
+- **Comprehensive Logging**: Track every execution with detailed logs
+
+</td>
+<td width="50%">
+
+### 🛡️ Production Ready
+- **Error Handling**: Robust error management and validation
+- **CORS Support**: Pre-configured for frontend integration
+- **Health Checks**: Monitor API status and database connectivity
+- **Multiple Databases**: MSSQL, MySQL, and MongoDB support
+
+</td>
+</tr>
+</table>
+
+---
+
+## 🏗️ Implementations
+
+Choose your preferred technology stack and database combination:
+
+<table>
+<tr>
+<th>Platform</th>
+<th>Database</th>
+<th>Port</th>
+<th>Quick Links</th>
+</tr>
+
+<tr>
+<td rowspan="2"><strong>.NET 8.0</strong><br/>C# / ASP.NET Core</td>
+<td>MSSQL</td>
+<td>5000</td>
+<td>
+  <a href="./DynamicApi-Dotnet-MSSQL">📁 Code</a> •
+  <a href="./DynamicApi-Dotnet-MSSQL/README.md">📖 Docs</a> •
+  <a href="./DynamicApi-Dotnet-MSSQL/QUICK_START.md">⚡ Quick Start</a>
+</td>
+</tr>
+<tr>
+<td>MySQL</td>
+<td>5000</td>
+<td>
+  <a href="./DynamicApi-Dotnet-MYSQL">📁 Code</a> •
+  <a href="./DynamicApi-Dotnet-MYSQL/README.md">📖 Docs</a>
+</td>
+</tr>
+
+<tr>
+<td rowspan="2"><strong>Django 4.2</strong><br/>Python / DRF</td>
+<td>MSSQL</td>
+<td>8000</td>
+<td>
+  <a href="./DynamicApi-Django-MSSQL">📁 Code</a> •
+  <a href="./DynamicApi-Django-MSSQL/README.md">📖 Docs</a> •
+  <a href="./DynamicApi-Django-MSSQL/SWAGGER_DOCUMENTATION.md">📊 Swagger</a>
+</td>
+</tr>
+<tr>
+<td>MySQL</td>
+<td>8000</td>
+<td>
+  <a href="./DynamicApi-Django-MYSQL">📁 Code</a> •
+  <a href="./DynamicApi-Django-MYSQL/README.md">📖 Docs</a> •
+  <a href="./DynamicApi-Django-MYSQL/SWAGGER_DOCUMENTATION.md">📊 Swagger</a>
+</td>
+</tr>
+
+<tr>
+<td rowspan="3"><strong>Express.js</strong><br/>Node.js</td>
+<td>MSSQL</td>
+<td>3000</td>
+<td>
+  <a href="./DynamicApi-Express-MSSQL">📁 Code</a> •
+  <a href="./DynamicApi-Express-MSSQL/README.md">📖 Docs</a>
+</td>
+</tr>
+<tr>
+<td>MySQL</td>
+<td>3000</td>
+<td>
+  <a href="./DynamicApi-Express-MYSQL">📁 Code</a> •
+  <a href="./DynamicApi-Express-MYSQL/README.md">📖 Docs</a>
+</td>
+</tr>
+<tr>
+<td>MongoDB</td>
+<td>3000</td>
+<td>
+  <a href="./DynamicApi-Express-MongoDB">📁 Code</a> •
+  <a href="./DynamicApi-Express-MongoDB/README.md">📖 Docs</a> •
+  <a href="./DynamicApi-Express-MongoDB/MONGODB_IMPLEMENTATION.md">🍃 MongoDB Guide</a>
+</td>
+</tr>
+</table>
+
+### 📂 Repository Structure
 
 ```
 backend/
-├── DynamicApi/                     # .NET implementation (C#)
-│   ├── Program.cs
-│   ├── DynamicApi.csproj
-│   ├── Controllers/
-│   ├── Services/
-│   ├── Data/
-│   └── README.md
-│
-├── DynamicApi-Express/             # Node.js implementation
-│   ├── src/
-│   ├── package.json
-│   ├── database/
-│   └── README.md
-│
-├── DynamicApi-Django/              # Python implementation
-│   ├── manage.py
-│   ├── config/
-│   ├── dynamic_api_app/
-│   ├── requirements.txt
-│   └── README.md
-│
-├── DynamicApi-Express-MongoDB/     # Node.js + MongoDB (NoSQL, dynamic collections)
-│   ├── src/
-│   ├── package.json
-│   ├── .env.example
-│   ├── README.md
-│   └── MONGODB_IMPLEMENTATION.md
-│
+├── DynamicApi-Dotnet-MSSQL/        # .NET + SQL Server
+├── DynamicApi-Dotnet-MYSQL/        # .NET + MySQL
+├── DynamicApi-Django-MSSQL/        # Django + SQL Server
+├── DynamicApi-Django-MYSQL/        # Django + MySQL
+├── DynamicApi-Express-MSSQL/       # Express + SQL Server
+├── DynamicApi-Express-MYSQL/       # Express + MySQL
+├── DynamicApi-Express-MongoDB/     # Express + MongoDB (NoSQL)
+├── DYNAMIC_API_DOCUMENTATION.md    # Complete API documentation
 └── README.md                        # This file
 ```
 
 ---
 
-## 🚀 Quick Start Guide
+## 🚀 Quick Start
 
-### Option 4: MongoDB Dynamic API (Express.js)
+Choose your implementation and get started in minutes:
 
-**Requirements**: Node.js 14+, MongoDB 4.0+
+### 🔷 .NET + MSSQL
 
-**Quick Setup**:
+```bash
+cd DynamicApi-Dotnet-MSSQL
+# Configure appsettings.json with your database connection
+dotnet restore
+dotnet run
+```
+**Access**: http://localhost:5000/swagger
+
+📖 [Full Setup Guide](./DynamicApi-Dotnet-MSSQL/README.md) | [Quick Start](./DynamicApi-Dotnet-MSSQL/QUICK_START.md) | [Deployment](./DynamicApi-Dotnet-MSSQL/DEPLOYMENT_GUIDE.md)
+
+---
+
+### 🐍 Django + MSSQL
+
+```bash
+cd DynamicApi-Django-MSSQL
+python -m venv venv
+venv\Scripts\activate  # Windows
+source venv/bin/activate  # Linux/Mac
+pip install -r requirements.txt
+cp .env.example .env
+# Edit .env with your database credentials
+python manage.py migrate
+python manage.py runserver
+```
+**Access**: http://localhost:8000/api/docs/swagger/
+
+📖 [Full Setup Guide](./DynamicApi-Django-MSSQL/README.md) | [Swagger Docs](./DynamicApi-Django-MSSQL/SWAGGER_DOCUMENTATION.md)
+
+---
+
+### 🟢 Express + MongoDB
+
 ```bash
 cd DynamicApi-Express-MongoDB
 npm install
 cp .env.example .env
-# Edit .env with MongoDB connection string if needed
+# Edit .env with MongoDB connection string
 npm run dev
 ```
+**Access**: http://localhost:3000/api/docs
 
-**Access**:
-- API: http://localhost:3000/api/v1.0/DynamicApi/DynamicApiExecute (legacy)
-- API: http://localhost:3000/api/v1.0/DynamicApi/Operations (JSON)
-- Swagger: http://localhost:3000/api/docs
+📖 [Full Setup Guide](./DynamicApi-Express-MongoDB/README.md) | [MongoDB Implementation](./DynamicApi-Express-MongoDB/MONGODB_IMPLEMENTATION.md)
 
 ---
 
-### Choose Your Platform
+### 🟢 Express + MySQL
 
-#### Option 1: .NET (C#) Implementation
-
-**Requirements**: .NET 8.0+, MySQL 5.7+
-
-**Quick Setup**:
 ```bash
-cd DynamicApi
-# Edit appsettings.json with database credentials
-# Set environment variable: ASPNETCORE_ENVIRONMENT=Development
-dotnet run
-```
-
-**Access**:
-- API: http://localhost:5000/api/v1.0/DynamicApi/DynamicApiExecute
-- Swagger: http://localhost:5000/swagger
-
----
-
-#### Option 2: Express (Node.js) Implementation
-
-**Requirements**: Node.js 14+, MySQL 5.7+
-
-**Quick Setup**:
-```bash
-cd DynamicApi-Express
+cd DynamicApi-Express-MYSQL
 npm install
 cp .env.example .env
 # Edit .env with database credentials
 npm start
 ```
+**Access**: http://localhost:3000/api/v1.0/docs
 
-**Access**:
-- API: http://localhost:3000/api/v1.0/DynamicApi/DynamicApiExecute
-- Swagger: http://localhost:3000/api/v1.0/docs
+📖 [Full Setup Guide](./DynamicApi-Express-MYSQL/README.md)
 
 ---
 
-#### Option 3: Django (Python) Implementation
+### 🐍 Django + MySQL
 
-**Requirements**: Python 3.8+, MySQL 5.7+
-
-**Quick Setup**:
 ```bash
-cd DynamicApi-Django
+cd DynamicApi-Django-MYSQL
 python -m venv venv
-source venv/bin/activate  # or venv\Scripts\activate on Windows
+source venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env
 # Edit .env with database credentials
+python manage.py migrate
 python manage.py runserver
 ```
+**Access**: http://localhost:8000/api/docs/swagger/
 
-**Access**:
-- API: http://localhost:8000/api/v1.0/DynamicApi/DynamicApiExecute
-- Swagger: http://localhost:8000/api/docs/swagger/
-
----
-
-## 📊 Implementation Comparison
-
-| Feature | .NET | Express | Django |
-|---------|------|---------|--------|
-| **Language** | C# | JavaScript | Python |
-| **Framework** | ASP.NET Core 8 | Express.js | Django 4.2 |
-| **Database** | MySQL | MySQL | MySQL |
-| **Authentication** | None | None | None |
-| **Swagger** | Swashbuckle | swagger-ui-express | drf-spectacular |
-| **Port** | 5000 | 3000 | 8000 |
-| **Performance** | Excellent | Very Good | Good |
-| **Setup Time** | Fast | Very Fast | Fast |
-| **Production Ready** | ✅ Yes | ✅ Yes | ✅ Yes |
+📖 [Full Setup Guide](./DynamicApi-Django-MYSQL/README.md)
 
 ---
 
-## 💾 System Requirements
+## 📊 Platform Comparison
 
-### Common Requirements
-- **MySQL**: 5.7 or 8.0+
-- **Internet Connection**: For package installation
-
-### Platform-Specific
-
-#### .NET
-- **Operating System**: Windows, macOS, Linux
-- **Runtime**: .NET 8.0+
-- **RAM**: 2GB minimum
-- **Disk**: 1GB
-
-#### Express
-- **Operating System**: Windows, macOS, Linux
-- **Runtime**: Node.js 14.0+
-- **npm**: 6.0+
-- **RAM**: 512MB minimum
-- **Disk**: 500MB
-
-#### Django
-- **Operating System**: Windows, macOS, Linux
-- **Runtime**: Python 3.8+
-- **pip**: Latest version
-- **RAM**: 512MB minimum
-- **Disk**: 500MB
+| Feature | .NET | Django | Express |
+|---------|------|--------|---------|
+| **Language** | C# 12 | Python 3.8+ | JavaScript (Node.js) |
+| **Framework** | ASP.NET Core 8 | Django 4.2 + DRF | Express.js 4.18+ |
+| **Databases** | MSSQL, MySQL | MSSQL, MySQL | MSSQL, MySQL, MongoDB |
+| **ORM/Driver** | EF Core, MySqlConnector | PyMySQL, mssql-django | mysql2, tedious, mongoose |
+| **Authentication** | JWT Ready | JWT Ready | JWT Ready |
+| **Swagger/OpenAPI** | ✅ Swashbuckle | ✅ drf-spectacular | ✅ swagger-ui-express |
+| **Default Port** | 5000 | 8000 | 3000 |
+| **Performance** | ⚡ Excellent | 🚀 Very Good | ⚡ Excellent |
+| **Setup Time** | Fast | Fast | Very Fast |
+| **Production Ready** | ✅ | ✅ | ✅ |
+| **Docker Support** | ✅ | ✅ | ✅ |
+| **Hot Reload** | ✅ | ✅ | ✅ |
 
 ---
 
-## 🔧 Database Setup
+## 🔌 API Reference
 
-### Create Database
+### Unified API Contract
 
-All three implementations use the same database schema:
+All implementations share the same API contract for seamless platform switching:
 
-```bash
-mysql -u root -p
+#### Execute Stored Procedure
 
-CREATE DATABASE DynamicApiDb CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+**Endpoint**: `POST /api/v1.0/DynamicApi/DynamicApiExecute`
 
-USE DynamicApiDb;
-
-# Optional: Import setup.sql from any implementation
-SOURCE path/to/database/setup.sql;
-```
-
-### Environment Variables
-
-#### .NET
-Set in `appsettings.json` or environment variables:
-```
-ConnectionStrings:DefaultConnection=Server=127.0.0.1;Port=3306;Database=DynamicApiDb;Uid=root;Pwd=password;
-ASPNETCORE_ENVIRONMENT=Development
-```
-
-#### Express
-Set in `.env`:
-```
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_NAME=DynamicApiDb
-DB_USER=root
-DB_PASSWORD=password
-PORT=3000
-```
-
-#### Django
-Set in `.env`:
-```
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_NAME=DynamicApiDb
-DB_USER=root
-DB_PASSWORD=password
-DEBUG=True
-DJANGO_SETTINGS_MODULE=config.settings.development
-```
-
----
-
-## 🔄 Unified API Contract
-
-### Request Format
-
-All three implementations accept the same request format:
-
+**Request Body**:
 ```json
-POST /api/v1.0/DynamicApi/DynamicApiExecute
 {
   "stringOne": "p_ProductId=1|p_Category=Electronics",
   "stringTwo": "|",
@@ -252,11 +277,61 @@ POST /api/v1.0/DynamicApi/DynamicApiExecute
 }
 ```
 
-#### MongoDB Dynamic API (Express.js + MongoDB)
+**Parameters**:
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `stringOne` | string | No | Parameter values in key=value format |
+| `stringTwo` | string | No | Parameter separator (default: `\|`) |
+| `stringThree` | string | No | Key-value separator (default: `=`) |
+| `stringFour` | string | Yes | Stored procedure name |
 
-**JSON Format (recommended):**
+**Success Response** (200 OK):
 ```json
-POST /api/v1.0/DynamicApi/Operations
+{
+  "status": true,
+  "message": "Success",
+  "data": [
+    {
+      "ProductId": 1,
+      "ProductName": "Laptop",
+      "Category": "Electronics",
+      "Price": 999.99
+    }
+  ]
+}
+```
+
+**Error Response** (400/500):
+```json
+{
+  "status": false,
+  "message": "Procedure not found: GetProductById",
+  "data": null
+}
+```
+
+#### Health Check
+
+**Endpoint**: `GET /health` or `GET /api/v1.0/DynamicApi/Health`
+
+**Response**:
+```json
+{
+  "status": true,
+  "message": "API is operational",
+  "data": {
+    "timestamp": "2026-04-01T10:30:00Z",
+    "database": "connected"
+  }
+}
+```
+
+### MongoDB Operations (Express Only)
+
+**Endpoint**: `POST /api/v1.0/DynamicApi/Operations`
+
+**Request Body** (JSON Format - Recommended):
+```json
 {
   "operationType": "create",
   "collectionName": "users",
@@ -271,63 +346,119 @@ POST /api/v1.0/DynamicApi/Operations
 }
 ```
 
-**Legacy String-Delimited Format:**
-```json
-POST /api/v1.0/DynamicApi/DynamicApiExecute
-{
-  "operationType": "create",
-  "collectionName": "users",
-  "parameters": "name=John Doe|email=john@example.com|age=30|city=New York",
-  "fieldDelimiter": "|",
-  "keyValueDelimiter": "="
-}
-```
+**Supported Operations**: `create`, `read`, `update`, `delete`, `aggregate`
 
-You can use either format for MongoDB. The string-delimited format is compatible with legacy clients and simple integrations. The JSON format is recommended for new development.
-
-### Request Parameters
-
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `stringOne` | string | No | Parameter values (key=value format) |
-| `stringTwo` | string | No | Parameter separator (default: `\|`) |
-| `stringThree` | string | No | Key-value separator (default: `=`) |
-| `stringFour` | string | Yes | Stored procedure name |
-
-### Response Format
-
-All three implementations return the same response format:
-
-**Success Response**:
-```json
-{
-  "status": true,
-  "message": "Success",
-  "data": [
-    {
-      "Column1": "Value1",
-      "Column2": "Value2"
-    }
-  ]
-}
-```
-
-**Error Response**:
-```json
-{
-  "status": false,
-  "message": "Error description",
-  "data": null
-}
-```
+📖 [MongoDB Implementation Guide](./DynamicApi-Express-MongoDB/MONGODB_IMPLEMENTATION.md)
 
 ---
 
-## 🧪 Testing Endpoints
+## 💻 Frontend Integration
 
-### Using curl
+### React Example (Axios)
+
+```jsx
+import axios from 'axios';
+
+const API_BASE_URL = 'http://localhost:5000'; // or 3000, 8000
+
+export const executeProcedure = async (procedureName, params) => {
+  const paramString = Object.entries(params)
+    .map(([key, value]) => `${key}=${value}`)
+    .join('|');
+
+  const response = await axios.post(
+    `${API_BASE_URL}/api/v1.0/DynamicApi/DynamicApiExecute`,
+    {
+      stringOne: paramString,
+      stringTwo: '|',
+      stringThree: '=',
+      stringFour: procedureName
+    }
+  );
+
+  return response.data;
+};
+
+// Usage
+const data = await executeProcedure('GetProductById', { p_ProductId: 1 });
+```
+
+### Angular Example (HttpClient)
+
+```typescript
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+@Injectable({ providedIn: 'root' })
+export class DynamicApiService {
+  private apiUrl = 'http://localhost:5000/api/v1.0/DynamicApi';
+
+  constructor(private http: HttpClient) {}
+
+  executeProcedure(procedureName: string, params: Record<string, any>): Observable<any> {
+    const paramString = Object.entries(params)
+      .map(([key, value]) => `${key}=${value}`)
+      .join('|');
+
+    return this.http.post(`${this.apiUrl}/DynamicApiExecute`, {
+      stringOne: paramString,
+      stringTwo: '|',
+      stringThree: '=',
+      stringFour: procedureName
+    });
+  }
+}
+```
+
+### Vue.js Example (Fetch API)
+
+```javascript
+export async function executeProcedure(procedureName, params) {
+  const paramString = Object.entries(params)
+    .map(([key, value]) => `${key}=${value}`)
+    .join('|');
+
+  const response = await fetch('http://localhost:5000/api/v1.0/DynamicApi/DynamicApiExecute', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      stringOne: paramString,
+      stringTwo: '|',
+      stringThree: '=',
+      stringFour: procedureName
+    })
+  });
+
+  return await response.json();
+}
+```
+
+### CORS Configuration
+
+All implementations are pre-configured with CORS support for common frontend ports:
+
+- `http://localhost:3000` (React, Next.js)
+- `http://localhost:4200` (Angular)
+- `http://localhost:8080` (Vue.js)
+- `http://localhost:5173` (Vite)
+
+Update CORS settings in:
+- **.NET**: `appsettings.json` → `CorsOrigins`
+- **Django**: `.env` → `CORS_ORIGINS`
+- **Express**: `.env` → `CORS_ORIGINS`
+
+---
+
+## 🧪 Testing the API
+
+### Using cURL
 
 ```bash
+# Test health endpoint
+curl http://localhost:5000/health
+
+# Execute stored procedure
 curl -X POST http://localhost:5000/api/v1.0/DynamicApi/DynamicApiExecute \
   -H "Content-Type: application/json" \
   -d '{
@@ -338,246 +469,177 @@ curl -X POST http://localhost:5000/api/v1.0/DynamicApi/DynamicApiExecute \
   }'
 ```
 
-### Using Postman
-
-1. Create POST request
-2. URL: `http://localhost:PORT/api/v1.0/DynamicApi/DynamicApiExecute`
-3. Header: `Content-Type: application/json`
-4. Body (JSON): Parameters shown above
-
 ### Using Swagger UI
 
-1. Open Swagger documentation:
-   - .NET: http://localhost:5000/swagger
-   - Express: http://localhost:3000/api/v1.0/docs
-   - Django: http://localhost:8000/api/docs/swagger/
-2. Find endpoint: `/api/v1.0/DynamicApi/DynamicApiExecute`
+1. Navigate to Swagger documentation:
+   - **.NET**: http://localhost:5000/swagger
+   - **Django**: http://localhost:8000/api/docs/swagger/
+   - **Express**: http://localhost:3000/api/docs
+
+2. Click on the endpoint you want to test
 3. Click "Try it out"
-4. Enter parameters and click Execute
+4. Enter parameters and click "Execute"
+5. View the response
 
-### Using Python
+### Using Postman
 
-```python
-import requests
-import json
+1. Import the OpenAPI/Swagger specification from `/api/schema/` endpoint
+2. Or manually create a POST request to `/api/v1.0/DynamicApi/DynamicApiExecute`
+3. Set `Content-Type: application/json` header
+4. Add request body with parameters
+5. Send request
 
-url = "http://localhost:PORT/api/v1.0/DynamicApi/DynamicApiExecute"
-payload = {
-    "stringOne": "p_ProductId=1",
-    "stringTwo": "|",
-    "stringThree": "=",
-    "stringFour": "GetProductById"
-}
-
-response = requests.post(url, json=payload)
-print(json.dumps(response.json(), indent=2))
-```
-
-### Using JavaScript
-#### Using Angular (HttpClient)
-
-```typescript
-// src/app/api.service.ts
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-
-@Injectable({ providedIn: 'root' })
-export class ApiService {
-  constructor(private http: HttpClient) {}
-
-  callDynamicApi(): Observable<any> {
-    return this.http.post('http://localhost:PORT/api/v1.0/DynamicApi/DynamicApiExecute', {
-      stringOne: 'p_ProductId=1',
-      stringTwo: '|',
-      stringThree: '=',
-      stringFour: 'GetProductById'
-    });
-  }
-}
-```
-
-#### Using React (axios)
-
-```jsx
-// src/apiCall.js
-import axios from 'axios';
-
-export async function callDynamicApi() {
-  const response = await axios.post('http://localhost:PORT/api/v1.0/DynamicApi/DynamicApiExecute', {
-    stringOne: 'p_ProductId=1',
-    stringTwo: '|',
-    stringThree: '=',
-    stringFour: 'GetProductById'
-  });
-  return response.data;
-}
-```
-
-#### Using JavaScript (fetch)
+📖 Detailed testing guides available in each implementation's documentation
 
 ---
 
-## 📚 Architecture
+## 🏛️ Architecture
 
-### Layered Architecture (All Three Implementations)
+All implementations follow a clean, layered architecture:
 
 ```
 ┌─────────────────────────────────────┐
-│      HTTP Layer (Request/Response)   │
-│  Express / ASP.NET / Django Views    │
+│   HTTP Layer (Controllers/Views)    │
+│   Request/Response Handling          │
 ├─────────────────────────────────────┤
-│     Routes Layer (Endpoints)         │
-│  Routes / Controllers / URL Config   │
+│   Service Layer                      │
+│   Business Logic & Orchestration     │
 ├─────────────────────────────────────┤
-│    Services Layer (Business Logic)   │
-│  Service Classes / Orchestration     │
+│   Executor/Repository Layer          │
+│   Database Operations                │
 ├─────────────────────────────────────┤
-│    Database Layer (Data Access)      │
-│  Executor / Connection Management    │
+│   Middleware & Utilities             │
+│   Logging, Error Handling, CORS      │
 ├─────────────────────────────────────┤
-│    Utilities & Middleware            │
-│  Logging / Error Handling / Config   │
-├─────────────────────────────────────┤
-│      MySQL Database                  │
-│  Stored Procedures Execution         │
+│   Database (MSSQL/MySQL/MongoDB)     │
+│   Stored Procedures / Collections    │
 └─────────────────────────────────────┘
 ```
 
-### Key Architecture Features
+### Key Architecture Principles
 
-- ✅ **Separation of Concerns**: Each layer has single responsibility
-- ✅ **Service Layer**: Business logic abstracted from framework
-- ✅ **Error Handling**: Centralized error management
-- ✅ **Logging**: Comprehensive logging throughout
-- ✅ **Parameterized Queries**: SQL injection prevention
-- ✅ **Consistent API**: Same contract across all platforms
-- ✅ **No Authentication**: Designed for internal APIs
-- ✅ **Flexible Parameters**: Custom separators support
+✅ **Separation of Concerns**: Each layer has a single responsibility  
+✅ **Dependency Injection**: Loose coupling between components  
+✅ **Error Handling**: Centralized error management  
+✅ **Logging**: Comprehensive logging at all layers  
+✅ **Security**: Parameterized queries prevent SQL injection  
+✅ **Scalability**: Stateless design for horizontal scaling  
 
 ---
 
-## 🔌 Key Technologies
+## 📚 Documentation
 
-### .NET Implementation
-- **Framework**: ASP.NET Core 8.0
-- **Database Driver**: MySqlConnector
-- **ORM**: Entity Framework Core
-- **Documentation**: Swashbuckle Swagger
-- **Language**: C# 12
+### General Documentation
+- 📘 [Complete API Documentation](./DYNAMIC_API_DOCUMENTATION.md)
+- � [Thifs README](./README.md)
 
-### Express Implementation
-- **Framework**: Express.js 4.18+
-- **Database Driver**: mysql2/promise
-- **Documentation**: swagger-ui-express
-- **Language**: JavaScript (Node.js)
-- **Architecture**: Layered with proper separation
+### Platform-Specific Documentation
 
-### Django Implementation
-- **Framework**: Django 4.2
-- **Database**: PyMySQL
-- **REST**: Django REST Framework
-- **Documentation**: drf-spectacular
-- **Language**: Python 3.8+
+#### .NET Implementation
+- 📗 [.NET + MSSQL README](./DynamicApi-Dotnet-MSSQL/README.md)
+- ⚡ [Quick Start Guide](./DynamicApi-Dotnet-MSSQL/QUICK_START.md)
+- 🚀 [Deployment Guide](./DynamicApi-Dotnet-MSSQL/DEPLOYMENT_GUIDE.md)
+- ⚙️ [Environment Setup](./DynamicApi-Dotnet-MSSQL/ENV_SETUP_GUIDE.md)
 
----
+#### Django Implementation
+- 📗 [Django + MSSQL README](./DynamicApi-Django-MSSQL/README.md)
+- 📗 [Django + MySQL README](./DynamicApi-Django-MYSQL/README.md)
+- 📊 [Swagger Documentation](./DynamicApi-Django-MSSQL/SWAGGER_DOCUMENTATION.md)
+- 🧪 [API Testing Guide](./DynamicApi-Django-MSSQL/docs/)
 
-## 📖 Documentation
-
-Each implementation has comprehensive documentation:
-
-- **DynamicApi (NET)**: [DynamicApi/README.md](./DynamicApi/README.md)
-  - Setup instructions
-  - Configuration guide
-  - Troubleshooting
-
-- **DynamicApi-Express**: 
-  - [DynamicApi-Express/README.md](./DynamicApi-Express/README.md) - Quick reference
-  - [DynamicApi-Express/documentation.md](./DynamicApi-Express/documentation.md) - Detailed guide
-
-- **DynamicApi-Django**: [DynamicApi-Django/README.md](./DynamicApi-Django/README.md)
-  - Comprehensive setup guide
-  - Architecture documentation
-  - Troubleshooting tips
+#### Express Implementation
+- 📗 [Express + MSSQL README](./DynamicApi-Express-MSSQL/README.md)
+- 📗 [Express + MySQL README](./DynamicApi-Express-MYSQL/README.md)
+- 📗 [Express + MongoDB README](./DynamicApi-Express-MongoDB/README.md)
+- 🍃 [MongoDB Implementation Guide](./DynamicApi-Express-MongoDB/MONGODB_IMPLEMENTATION.md)
 
 ---
 
 ## 🚢 Production Deployment
 
-### .NET Deployment
+### Docker Deployment
 
-**IIS Deployment**:
-```powershell
-# Publish release build
-dotnet publish -c Release -o publish
-# Copy publish folder to IIS directory
-# Configure IIS application pool and website
-```
+Each implementation includes Docker support:
 
-**Docker Deployment**:
 ```bash
-docker build -t dynamicapi-net .
-docker run -e ConnectionStrings__DefaultConnection="..." -p 5000:80 dynamicapi-net
-```
+# .NET
+cd DynamicApi-Dotnet-MSSQL
+docker build -t dynamicapi-dotnet .
+docker run -p 5000:80 -e ConnectionStrings__DefaultConnection="..." dynamicapi-dotnet
 
-### Express Deployment
-
-**Using PM2**:
-```bash
-npm install -g pm2
-pm2 start src/index.js --name "dynamicapi-express"
-pm2 startup
-pm2 save
-```
-
-**Docker Deployment**:
-```bash
-docker build -t dynamicapi-express .
-docker run -e DB_HOST=host.docker.internal -p 3000:3000 dynamicapi-express
-```
-
-### Django Deployment
-
-**Using Gunicorn**:
-```bash
-pip install gunicorn
-gunicorn config.wsgi --bind 0.0.0.0:8000 --workers 4
-```
-
-**Docker Deployment**:
-```bash
+# Django
+cd DynamicApi-Django-MSSQL
 docker build -t dynamicapi-django .
-docker run -e DB_HOST=host.docker.internal -p 8000:8000 dynamicapi-django
+docker run -p 8000:8000 --env-file .env dynamicapi-django
+
+# Express
+cd DynamicApi-Express-MYSQL
+docker build -t dynamicapi-express .
+docker run -p 3000:3000 --env-file .env dynamicapi-express
 ```
+
+### Cloud Deployment Options
+
+- **Azure**: App Service, Container Instances, AKS
+- **AWS**: Elastic Beanstalk, ECS, EKS
+- **Google Cloud**: App Engine, Cloud Run, GKE
+- **Heroku**: Direct deployment with buildpacks
+
+### Production Checklist
+
+- [ ] Configure environment variables securely
+- [ ] Enable HTTPS/TLS
+- [ ] Set up database connection pooling
+- [ ] Configure logging and monitoring
+- [ ] Implement rate limiting
+- [ ] Add authentication (JWT recommended)
+- [ ] Restrict CORS to specific origins
+- [ ] Set up automated backups
+- [ ] Configure health checks
+- [ ] Enable application insights/monitoring
+
+📖 Detailed deployment guides available in each implementation
 
 ---
 
-## 🔍 Monitoring & Logging
+## 🔐 Security Considerations
 
-### Health Check Endpoints
+### Current Implementation
+✅ **SQL Injection Protection**: All queries use parameterized execution  
+✅ **Input Validation**: Procedure names and parameters validated  
+✅ **CORS Configuration**: Configurable allowed origins  
+✅ **Error Handling**: Errors don't expose sensitive information  
+⚠️ **No Authentication**: Designed for internal APIs (add JWT for production)  
 
-All implementations provide health endpoints:
+### Before Public Deployment
+- [ ] Implement authentication (JWT, OAuth, API Keys)
+- [ ] Add rate limiting and throttling
+- [ ] Enable HTTPS/TLS encryption
+- [ ] Configure security headers (HSTS, CSP, etc.)
+- [ ] Implement request signing
+- [ ] Add IP whitelisting if needed
+- [ ] Set up WAF (Web Application Firewall)
+- [ ] Enable audit logging
+- [ ] Perform security testing (OWASP Top 10)
 
-- **.NET**: `GET http://localhost:5000/health`
-- **Express**: `GET http://localhost:3000/health`
-- **Django**: `GET http://localhost:8000/health`
+---
 
-### Logging
+## 💡 Use Cases
 
-All implementations provide comprehensive logging:
+### Perfect For:
+- **Internal APIs**: Execute database procedures without creating endpoints
+- **Microservices**: Lightweight database access layer
+- **Legacy System Integration**: Bridge between old stored procedures and modern frontends
+- **Rapid Prototyping**: Quick API development without boilerplate
+- **Multi-Platform Teams**: Same API across different tech stacks
+- **Database Migration**: Switch databases without changing API contract
 
-- **File Logging**: Check logs/ directories
-- **Console Logging**: Monitor startup output
-- **Database Logging**: Execution logs stored in ExecutionLogs table
-
-### Monitoring Strategy
-
-1. **Health Check**: Monitor `/health` endpoint
-2. **Application Logs**: Check log files regularly
-3. **Database Health**: Monitor MySQL connectivity and backups
-4. **Execution Logs**: Review procedure execution logs
-5. **Error Rates**: Track error response rates
-6. **Performance**: Monitor execution times
+### Not Recommended For:
+- Public-facing APIs without authentication
+- Complex business logic (use dedicated services)
+- Real-time applications (consider WebSockets)
+- File uploads/downloads
+- GraphQL requirements
 
 ---
 
@@ -585,154 +647,139 @@ All implementations provide comprehensive logging:
 
 ### Common Issues
 
-#### Database Connection Failed
-- Verify MySQL is running
-- Check connection credentials in configuration
-- Ensure database and tables exist
+<details>
+<summary><strong>Database Connection Failed</strong></summary>
+
+- Verify database server is running
+- Check connection string/credentials
+- Ensure database exists
 - Check firewall rules
+- Test connection with database client
+</details>
 
-#### Port Already in Use
-- Change PORT environment variable
-- Or kill process using the port
-- .NET: 5000, Express: 3000, Django: 8000
+<details>
+<summary><strong>Port Already in Use</strong></summary>
 
-#### Swagger Not Loading
-- Restart application after code changes
-- Check JSDoc/decorators in route files
-- Verify swagger configuration points to correct files
+```bash
+# .NET - Change port in launchSettings.json or:
+dotnet run --urls="http://localhost:5001"
 
-#### Procedure Not Found
+# Django
+python manage.py runserver 8001
+
+# Express - Change PORT in .env or:
+PORT=3001 npm start
+```
+</details>
+
+<details>
+<summary><strong>Swagger Not Loading</strong></summary>
+
+- Clear browser cache
+- Restart application
+- Check console for JavaScript errors
+- Verify Swagger configuration in code
+- Ensure all routes are properly decorated
+</details>
+
+<details>
+<summary><strong>Stored Procedure Not Found</strong></summary>
+
 - Verify procedure exists in database
-- Check procedure name spelling (case-sensitive)
-- Ensure database is selected
+- Check spelling (case-sensitive in some databases)
+- Ensure user has EXECUTE permissions
+- Test procedure directly in database client
+</details>
 
-#### Parameter Parsing Error
-- Verify parameter separators match request
-- Check parameter format: key=value
-- Ensure no trailing spaces in parameters
+<details>
+<summary><strong>CORS Errors</strong></summary>
 
----
-
-## 📋 Implementation Checklist
-
-### Before Production Deployment
-
-- [ ] Database backup configured
-- [ ] SSL/TLS certificates installed
-- [ ] Authentication layer added (if needed)
-- [ ] Rate limiting configured
-- [ ] CORS configured for allowed origins
-- [ ] Logging configured properly
-- [ ] Monitoring/alerting setup
-- [ ] Load testing completed
-- [ ] Security review completed
-- [ ] Disaster recovery plan documented
+- Add your frontend origin to CORS configuration
+- Check browser console for specific error
+- Verify preflight OPTIONS requests are handled
+- Ensure credentials are configured if needed
+</details>
 
 ---
 
-## 🔐 Security Notes
+## 📈 Performance Tips
 
-### Current Implementation
-- ⚠️ **No Authentication**: Designed for internal APIs only
-- ✅ **SQL Injection Protection**: All queries parameterized
-- ✅ **Input Validation**: Procedure names validated
-- ✅ **CORS**: Configured
-- ✅ **Error Handling**: Errors don't expose sensitive info
+### Database Optimization
+- Create indexes on frequently queried columns
+- Optimize stored procedures
+- Use connection pooling (enabled by default)
+- Monitor slow query logs
+- Implement caching for frequently called procedures
 
-### Before Public Deployment
-- [ ] Add authentication (JWT, API keys, OAuth)
-- [ ] Add rate limiting
-- [ ] Add input sanitization
-- [ ] Enable HTTPS/TLS
-- [ ] Configure security headers
-- [ ] Add request logging
-- [ ] Implement request signing
+### Application Optimization
+- Enable response compression
+- Use async/await patterns
+- Implement request caching
+- Monitor memory usage
+- Profile slow endpoints
 
----
-
-## 📞 Support
-
-### Getting Help
-
-1. **Check Implementation Documentation**: Each folder has detailed README
-2. **Review Examples**: Swagger UI has request/response examples
-3. **Check Logs**: Look in logs/ folder for error details
-4. **Verify Configuration**: Ensure .env or appsettings are correct
-
-### Common Questions
-
-**Q: Can I use with non-MySQL databases?**
-A: .NET supports multiple databases via EF Core. Express/Django can be modified with different drivers.
-
-**Q: How do I add authentication?**
-A: See authentication sections in each implementation's documentation.
-
-**Q: Can I modify the API contract?**
-A: Yes, but maintain consistency across all three implementations.
-
-**Q: Is real-time data supported?**
-A: No, these are request-response APIs. WebSocket support can be added.
-
----
-
-## 📈 Performance Considerations
-
-### Optimization Tips
-
-1. **Connection Pooling**: All implementations use connection pooling
-2. **Query Optimization**: Ensure stored procedures are optimized
-3. **Indexing**: Create indexes on frequently queried columns
-4. **Caching**: Consider caching frequently called procedures
-5. **Load Balancing**: Deploy multiple instances behind load balancer
-
-### Performance Benchmarks
-
-Typical response times:
-- **Simple procedures**: 10-50ms
-- **Medium procedures**: 50-200ms
-- **Complex procedures**: 200-1000ms+
+### Scaling Strategies
+- Deploy multiple instances behind load balancer
+- Use database read replicas
+- Implement Redis caching
+- Enable CDN for static assets
+- Use container orchestration (Kubernetes)
 
 ---
 
 ## 🤝 Contributing
 
-When adding features to one implementation:
-1. Implement in all three platforms
-2. Maintain API contract consistency
+Contributions are welcome! When adding features:
+
+1. Implement across all platforms for consistency
+2. Maintain the unified API contract
 3. Add comprehensive documentation
-4. Update this README if needed
-5. Test across all platforms
+4. Include tests
+5. Update this README if needed
 
 ---
 
 ## 📄 License
 
-All implementations are provided under the MIT License.
+This project is licensed under the MIT License - see individual implementation folders for details.
 
 ---
 
-## 🎯 Next Steps
+## 📞 Support & Resources
 
-1. **Choose a Platform**: Select which implementation suits your needs
-2. **Follow Setup Guide**: Use Quick Start or detailed README
-3. **Test Endpoints**: Use Swagger UI or curl to verify
-4. **Review Architecture**: Understand the layered design
-5. **Deploy**: Follow production deployment guidelines
+### Getting Help
+1. Check implementation-specific README files
+2. Review Swagger documentation
+3. Check logs directory for error details
+4. Verify configuration files (.env, appsettings.json)
 
----
-
-## 📝 Version Information
-
-- **Project Version**: 1.0.0
-- **Last Updated**: March 27, 2026
-- **.NET Version**: 8.0
-- **Node.js Version**: 14.0+
-- **Python Version**: 3.8+
-- **MySQL Version**: 5.7+
+### Additional Resources
+- [.NET Documentation](https://docs.microsoft.com/dotnet/)
+- [Django Documentation](https://docs.djangoproject.com/)
+- [Express.js Documentation](https://expressjs.com/)
+- [MongoDB Documentation](https://docs.mongodb.com/)
 
 ---
 
-For detailed setup instructions for your chosen platform, open the corresponding README:
-- [DynamicApi](./DynamicApi/README.md)
-- [DynamicApi-Express](./DynamicApi-Express/README.md)
-- [DynamicApi-Django](./DynamicApi-Django/README.md)
+## 🎯 What's Next?
+
+1. **Choose Your Stack**: Select the implementation that matches your team's expertise
+2. **Follow Quick Start**: Get up and running in minutes
+3. **Explore Documentation**: Deep dive into platform-specific features
+4. **Test with Swagger**: Use interactive documentation to test endpoints
+5. **Integrate Frontend**: Use provided examples for React, Angular, or Vue.js
+6. **Deploy**: Follow deployment guides for production
+
+---
+
+<div align="center">
+
+### 🌟 Ready to Get Started?
+
+Choose your implementation above and follow the Quick Start guide!
+
+**Made with ❤️ for developers who value flexibility and consistency**
+
+[⬆ Back to Top](#-dynamic-api---multi-platform-implementation)
+
+</div>
