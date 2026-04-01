@@ -1,0 +1,66 @@
+# .NET & Visual Studio
+bin/
+obj/
+.vs/
+.vscode/
+*.user
+*.suo
+*.sln.docstates
+Debug/
+Release/
+publish/
+*.csproj.user
+*.csproj.locks
+*.csproj.FileListAbsolute.txt
+.localhistory/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Build Results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Log files
+*.log
+*.xlsx
+logs/
+
+# Environment/Configuration
+.env
+.env.local
+.env.*.local
+appsettings.local.json
+appsettings.Development.json
+
+# Database
+*.db
+*.sqlite3
+*.sqlite3-journal
+
+# IDE
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# OS
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
