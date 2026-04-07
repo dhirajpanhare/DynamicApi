@@ -310,6 +310,40 @@ All implementations share the same API contract for seamless platform switching:
 }
 ```
 
+#### Generate Payload from Procedure Definition
+
+**Endpoint**: `POST /api/v1.0/DynamicApi/GeneratePayload`
+
+**Description**: Paste a CREATE PROCEDURE SQL definition and receive a ready-to-use DynamicApiExecute request payload with sample values based on parameter data types.
+
+**Request Body**:
+```json
+{
+  "procedureDefinition": "CREATE PROCEDURE GetProductById(IN p_ProductId INT, IN p_Category VARCHAR(100)) BEGIN SELECT * FROM Products WHERE ProductId = p_ProductId AND Category = p_Category; END"
+}
+```
+
+**Success Response** (200 OK):
+```json
+{
+  "stringOne": "p_ProductId=1|p_Category=SampleText",
+  "stringTwo": "|",
+  "stringThree": "=",
+  "stringFour": "GetProductById"
+}
+```
+
+**Error Response** (400):
+```json
+{
+  "status": false,
+  "message": "procedureDefinition is required in the request body",
+  "data": null
+}
+```
+
+**Use Case**: Quickly generate test payloads from stored procedure definitions without manually typing parameter names and sample values.
+
 #### Health Check
 
 **Endpoint**: `GET /health` or `GET /api/v1.0/DynamicApi/Health`
@@ -531,7 +565,8 @@ All implementations follow a clean, layered architecture:
 
 ### General Documentation
 - 📘 [Complete API Documentation](./DYNAMIC_API_DOCUMENTATION.md)
-- � [Thifs README](./README.md)
+- 🔐 [Security Guide](./SECURITY_GUIDE.md)
+- 📄 [This README](./README.md)
 
 ### Platform-Specific Documentation
 
@@ -621,6 +656,8 @@ docker run -p 3000:3000 --env-file .env dynamicapi-express
 - [ ] Set up WAF (Web Application Firewall)
 - [ ] Enable audit logging
 - [ ] Perform security testing (OWASP Top 10)
+
+📖 **Full security documentation, upgrade roadmap, and implementation code**: [SECURITY_GUIDE.md](./SECURITY_GUIDE.md)
 
 ---
 

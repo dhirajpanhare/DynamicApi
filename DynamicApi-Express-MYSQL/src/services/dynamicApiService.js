@@ -1,10 +1,11 @@
 const StoredProcedureExecutor = require('./storedProcedureExecutor');
 
 class DynamicApiService {
-    constructor(pool, dbConnection, logger) {
+    constructor(pool, dbConnection, logger, metadataExtractor = null) {
         this.executor = new StoredProcedureExecutor(pool, logger);
         this.dbConnection = dbConnection;
         this.logger = logger;
+        this.metadataExtractor = metadataExtractor;
     }
 
     /**
@@ -14,7 +15,7 @@ class DynamicApiService {
      * @param {string} parameterSeparator - Separator between parameters (default: |)
      * @param {string} keyValueSeparator - Separator between key and value (default: =)
      * @param {string} userEmail - User email for audit (default: anonymous)
-     * @returns {Promise<object>} - { status, message, data }
+     * @returns {Promise<object>} - { status, message, executionTime, cached, data }
      */
     async executeProcedureAsync(
         procedureName,
@@ -55,6 +56,8 @@ class DynamicApiService {
             return {
                 status: result.success,
                 message: result.message,
+                executionTime: executionTime,
+                cached: false,
                 data: result.data || []
             };
         } catch (error) {
@@ -79,6 +82,8 @@ class DynamicApiService {
             return {
                 status: false,
                 message: 'An error occurred executing the procedure. Please contact support if the problem persists.',
+                executionTime: executionTime,
+                cached: false,
                 data: []
             };
         }

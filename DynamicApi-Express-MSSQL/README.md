@@ -142,6 +142,25 @@ npm run dev
   - `stringThree`: Key-value separator (default: `=`)
   - `stringFour`: Stored procedure name (required)
 
+### Generate Payload from Procedure Definition
+- **URL**: `POST /api/v1.0/DynamicApi/GeneratePayload`
+- **Description**: Paste a CREATE PROCEDURE SQL definition and receive a ready-to-use payload
+- **Request Body**:
+  ```json
+  {
+    "procedureDefinition": "CREATE PROCEDURE GetProductById(@ProductId INT, @Category VARCHAR(100)) AS BEGIN SELECT * FROM Products WHERE ProductId = @ProductId; END"
+  }
+  ```
+- **Response**:
+  ```json
+  {
+    "stringOne": "@ProductId=1|@Category=SampleText",
+    "stringTwo": "|",
+    "stringThree": "=",
+    "stringFour": "GetProductById"
+  }
+  ```
+
 ### Health Check
 - **URL**: `GET /health`
 - **Description**: Returns server health status

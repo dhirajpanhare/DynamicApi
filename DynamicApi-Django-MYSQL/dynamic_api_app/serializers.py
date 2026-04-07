@@ -38,6 +38,8 @@ class DynamicApiResponseSerializer(serializers.Serializer):
     
     status = serializers.BooleanField()
     message = serializers.CharField()
+    executionTime = serializers.IntegerField(default=0, help_text="Execution time in milliseconds")
+    cached = serializers.BooleanField(default=False, help_text="Whether result was cached")
     data = serializers.JSONField(allow_null=True)
 
 
@@ -47,6 +49,27 @@ class HealthResponseSerializer(serializers.Serializer):
     status = serializers.BooleanField()
     message = serializers.CharField()
     data = serializers.JSONField()
+
+
+class ParameterMetadataSerializer(serializers.Serializer):
+    """Serializer for stored procedure parameter metadata"""
+    
+    name = serializers.CharField()
+    type = serializers.CharField()
+    maxLength = serializers.IntegerField(required=False, allow_null=True)
+    precision = serializers.IntegerField(required=False, allow_null=True)
+    scale = serializers.IntegerField(required=False, allow_null=True)
+    isNullable = serializers.BooleanField(default=True)
+    isOutput = serializers.BooleanField(default=False)
+
+
+class ProcedureMetadataResponseSerializer(serializers.Serializer):
+    """Serializer for procedure metadata response"""
+    
+    procedureName = serializers.CharField()
+    parameters = ParameterMetadataSerializer(many=True)
+    exampleRequest = serializers.JSONField()
+    swaggerSchema = serializers.JSONField()
 
 
 class ExecutionLogSerializer(serializers.Serializer):
@@ -60,3 +83,11 @@ class ExecutionLogSerializer(serializers.Serializer):
     execution_time_ms = serializers.IntegerField(allow_null=True)
     created_at = serializers.DateTimeField()
     execution_user = serializers.CharField(allow_blank=True)
+
+
+class ListProceduresSerializer(serializers.Serializer):
+    """Serializer for list of procedures response"""
+    
+    status = serializers.BooleanField()
+    message = serializers.CharField()
+    data = serializers.ListField(child=serializers.CharField())

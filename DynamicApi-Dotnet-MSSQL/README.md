@@ -41,6 +41,34 @@ DynamicApi/
 
 ## API Endpoints
 - **POST** `/api/v1.0/DynamicApi/DynamicApiExecute` - Execute stored procedure
+- **POST** `/api/v1.0/DynamicApi/GeneratePayload` - Generate payload from CREATE PROCEDURE definition
+- **GET** `/api/v1.0/DynamicApi/GetProcedureMetadata/{procedureName}` - Get procedure metadata
+- **GET** `/api/v1.0/DynamicApi/ListProcedures` - List all available procedures
+
+### Generate Payload Endpoint
+
+The GeneratePayload endpoint helps you quickly create test payloads from stored procedure definitions:
+
+**Request:**
+```bash
+curl -X POST http://localhost:5000/api/v1.0/DynamicApi/GeneratePayload \
+  -H "Content-Type: application/json" \
+  -d '{
+    "procedureDefinition": "CREATE PROCEDURE GetProductById(@ProductId INT, @Category VARCHAR(100)) AS BEGIN SELECT * FROM Products WHERE ProductId = @ProductId AND Category = @Category; END"
+  }'
+```
+
+**Response:**
+```json
+{
+  "stringOne": "@ProductId=1|@Category=SampleText",
+  "stringTwo": "|",
+  "stringThree": "=",
+  "stringFour": "GetProductById"
+}
+```
+
+You can then use this response directly in the DynamicApiExecute endpoint!
 
 ## Database Connection
 

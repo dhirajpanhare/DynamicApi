@@ -121,7 +121,31 @@ JWT_SECRET = config('JWT_SECRET', default='your-secret-key-change-in-production'
 JWT_ALGORITHM = config('JWT_ALGORITHM', default='HS256')
 JWT_EXPIRATION_HOURS = config('JWT_EXPIRATION_HOURS', default=24, cast=int)
 
-# Database Connection Configuration
+# ─────────────────────────────────────────────────────────────────────────────
+# Authentication Mode
+# ─────────────────────────────────────────────────────────────────────────────
+# AUTH_MODE controls authentication strategy:
+#   none    — No authentication (development / internal networks)
+#   token   — Static token(s) via STATIC_TOKENS
+#   jwt     — JWT from external auth API(s) via JWT_SECRETS
+#   hybrid  — Both static tokens AND JWTs (migration phase)
+AUTH_MODE = config('AUTH_MODE', default='none')
+
+# Comma-separated static tokens. Clients send: Authorization: Bearer <token>
+# Generate: python -c "import secrets; print(secrets.token_hex(32))"
+# Remove once all clients switch to JWT.
+STATIC_TOKENS = config('STATIC_TOKENS', default='')
+
+# Comma-separated JWT secrets from external auth APIs.
+# Dynamic API NEVER generates tokens — it only validates them.
+# Add one secret per project that has its own auth API.
+JWT_SECRETS = config('JWT_SECRETS', default='')
+
+# External auth service URL (optional — takes priority over AUTH_MODE)
+# If set, every token is forwarded to this URL for validation.
+# POST with Authorization: Bearer <token> → expects { "status": true|false }
+AUTH_SERVICE_URL = config('AUTH_SERVICE_URL', default='')
+
 DB_CONNECTION_TIMEOUT = config('DB_CONNECTION_TIMEOUT', default=30, cast=int)
 DB_COMMAND_TIMEOUT = config('DB_COMMAND_TIMEOUT', default=300, cast=int)
 

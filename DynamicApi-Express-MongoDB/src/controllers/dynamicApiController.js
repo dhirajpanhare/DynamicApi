@@ -6,14 +6,22 @@
 
 const logger = require('../utils/logger');
 const { DynamicApiService } = require('../services/dynamicApiService');
+const ProcedureMetadataExtractor = require('../services/procedureMetadataExtractor');
+const MongoDBTransactionExecutor = require('../services/mongodbTransactionExecutor');
 
 /**
  * Initialize service with mongoose connection
  */
 let apiService;
+let metadataExtractor;
 
 const initializeController = (mongooseConnection) => {
   apiService = new DynamicApiService(mongooseConnection);
+  metadataExtractor = new ProcedureMetadataExtractor(mongooseConnection, logger);
+  
+  // Initialize transaction executor and attach to service
+  const transactionExecutor = new MongoDBTransactionExecutor(mongooseConnection);
+  apiService.transactionExecutor = transactionExecutor;
 };
 
 /**
@@ -246,10 +254,164 @@ const validateOperation = async (req, res) => {
   }
 };
 
+/**
+ * GET /api/v1.0/DynamicApi/metadata/:collectionName
+ * Get collection metadata (schema information)
+ */
+const getCollectionMetadata = async (req, res) => {
+  try {
+    const { collectionName } = req.params;
+
+    if (!collectionName || typeof collectionName !== 'string' || collectionName.trim() === '') {
+      return res.status(400).json({
+        status: false,
+        message: 'Collection name is required',
+        data: null,
+      });
+    }
+
+    logger.info(`Getting metadata for collection: ${collectionName}`);
+
+    const metadata = await metadataExtractor.extractMetadata(collectionName.trim());
+
+    return res.status(200).json({
+      status: true,
+      message: 'Metadata retrieved successfully',
+      data: metadata,
+    });
+  } catch (error) {
+    logger.error(`Error getting metadata: ${error.message}`);
+    return res.status(400).json({
+      status: false,
+      message: error.message,
+      data: null,
+    });
+  }
+};
+
+/**
+ * GET /api/v1.0/DynamicApi/procedures
+ * List all collections (equivalent to procedures for MongoDB)
+ */
+const listProcedures = async (req, res) => {
+  try {
+    logger.info('Listing all collections');
+
+    const collections = await metadataExtractor.listProcedures();
+
+    return res.status(200).json({
+      status: true,
+      message: 'Collections listed successfully',
+      data: collections,
+    });
+  } catch (error) {
+    logger.error(`Error listing collections: ${error.message}`);
+    return res.status(400).json({
+      status: false,
+      message: error.message,
+      data: null,
+    });
+  }
+};
+
+/**
+ * POST /api/v1.0/DynamicTransactionApi/DynamicTransactionApiExecute
+ * Execute multiple MongoDB operations in a transaction
+ */
+const executeTransaction = async (req, res) => {
+  try {
+    // Extract transaction data from request body
+    const { transaction = false, operations = [] } = req.body;
+    const userEmail = req.user?.email || 'anonymous';
+
+    // Validate transaction flag
+    if (!transaction) {
+      return res.status(400).json({
+        status: false,
+        message: 'Transaction must be set to true',
+        data: null,
+      });
+    }
+
+    // Validate operations array
+    if (!Array.isArray(operations) || operations.length === 0) {
+      return res.status(400).json({
+        status: false,
+        message: 'Operations array is required and must not be empty',
+        data: null,
+      });
+    }
+
+    // Validate each operation
+    for (let i = 0; i < operations.length; i++) {
+      const op = operations[i];
+
+      // Validate operation type
+      const validTypes = ['create', 'read', 'update', 'delete', 'aggregate', 'bulk'];
+      if (!op.operationType || !validTypes.includes(op.operationType.toLowerCase())) {
+        return res.status(400).json({
+          status: false,
+          message: `Operation ${i}: Invalid or missing operation type. Must be one of: ${validTypes.join(', ')}`,
+          data: null,
+        });
+      }
+
+      // Validate collection name
+      if (!op.collectionName || typeof op.collectionName !== 'string' || op.collectionName.trim() === '') {
+        return res.status(400).json({
+          status: false,
+          message: `Operation ${i}: Collection name is required`,
+          data: null,
+        });
+      }
+
+      // Validate collection name format
+      const collNameRegex = /^[a-zA-Z_][a-zA-Z0-9_]*$/;
+      if (!collNameRegex.test(op.collectionName.trim())) {
+        return res.status(400).json({
+          status: false,
+          message: `Operation ${i}: Invalid collection name format`,
+          data: null,
+        });
+      }
+    }
+
+    logger.info(`Executing transaction with ${operations.length} operations by ${userEmail}`);
+
+    // Execute transaction
+    const result = await apiService.executeTransaction(operations, userEmail);
+
+    // Prepare response
+    const responseData = {
+      status: result.success,
+      message: result.message,
+      executionTime: result.executionTime,
+      cached: false,
+      data: result.data || null,
+    };
+
+    const statusCode = result.success ? 200 : 500;
+    return res.status(statusCode).json(responseData);
+
+  } catch (error) {
+    logger.error(`Error in executeTransaction controller: ${error.message}`);
+    logger.error(`Stack: ${error.stack}`);
+
+    return res.status(500).json({
+      status: false,
+      message: 'An error occurred processing your transaction. Please contact support.',
+      data: null,
+    });
+  }
+};
+
 module.exports = {
   initializeController,
   executeOperation,
   getAvailableCollections,
   getCollectionSchema,
   validateOperation,
+  getCollectionMetadata,
+  listProcedures,
+  executeTransaction,
 };

@@ -196,7 +196,15 @@ class DynamicApiService {
         await this._logOperation(true, result.message, executionData, startTime, result.data);
       }
 
-      return result;
+      const executionTime = Date.now() - startTime;
+
+      return {
+        status: result.success,
+        message: result.message,
+        executionTime: executionTime,
+        cached: false,
+        data: result.data || null
+      };
     } catch (error) {
       const message = 'An error occurred executing the operation. Please contact support if the problem persists.';
       logger.error(
@@ -204,11 +212,14 @@ class DynamicApiService {
       );
       logger.error(`Parameters: ${JSON.stringify(executionData)}`);
 
+      const executionTime = Date.now() - startTime;
       await this._logOperation(false, message, executionData, startTime);
 
       return {
-        success: false,
+        status: false,
         message,
+        executionTime: executionTime,
+        cached: false,
         data: null,
       };
     }
@@ -365,6 +376,89 @@ class DynamicApiService {
       });
     } catch (error) {
       logger.error(`Failed to log operation: ${error.message}`);
+      // Don't throw - logging errors shouldn't break the main flow
+    }
+  }
+
+  /**
+   * Execute multiple operations within a MongoDB transaction
+   * @param {Array} operations - Array of {operationType, collectionName, parameters}
+   * @param {string} userEmail - User email for audit
+   * @returns {Promise<{success, message, data, executionTime}>}
+   */
+  async executeTransaction(operations, userEmail = 'anonymous') {
+    const startTime = Date.now();
+
+    try {
+      if (!this.transactionExecutor) {
+        throw new Error('Transaction executor not initialized');
+      }
+
+      // Set the operation executor on the transaction executor if not already set
+      if (!this.transactionExecutor.operationExecutor) {
+        this.transactionExecutor.setOperationExecutor(this.operationExecutor);
+      }
+
+      logger.info(`Executing transaction with ${operations.length} operations by ${userEmail}`);
+
+      // Execute the transaction
+      const result = await this.transactionExecutor.execute(operations, userEmail);
+
+      // Log the transaction (non-blocking)
+      this._logTransaction(
+        result.success,
+        result.message,
+        {
+          operationCount: operations.length,
+          operationsCompleted: result.data.successfulOperations,
+          operationsFailed: result.data.failedOperations,
+          userEmail,
+        },
+        startTime
+      ).catch((err) => {
+        logger.error(`Failed to log transaction: ${err.message}`);
+      });
+
+      return result;
+    } catch (error) {
+      logger.error(`Transaction execution error: ${error.message}`);
+
+      const duration = Date.now() - startTime;
+
+      return {
+        success: false,
+        message: `Transaction error: ${error.message}`,
+        data: {
+          operationCount: operations.length,
+          successfulOperations: 0,
+          failedOperations: operations.length,
+          operations: [],
+        },
+        executionTime: duration,
+      };
+    }
+  }
+
+  /**
+   * Log transaction to database
+   * @private
+   */
+  async _logTransaction(success, message, transactionData, startTime) {
+    try {
+      const duration = Date.now() - startTime;
+
+      await OperationLog.create({
+        operationType: 'transaction',
+        collectionName: 'N/A',
+        parameters: transactionData,
+        userEmail: transactionData.userEmail,
+        success,
+        message,
+        duration,
+        resultCount: transactionData.operationsCompleted || 0,
+      });
+    } catch (error) {
+      logger.error(`Failed to log transaction: ${error.message}`);
       // Don't throw - logging errors shouldn't break the main flow
     }
   }

@@ -16,10 +16,12 @@ namespace DynamicApi.Common
                 ?? throw new InvalidOperationException("Connection string cannot be null");
         }
 
-        public async Task<(bool success, string message, List<Dictionary<string, object>> data)> ExecuteAsync(
+        public async Task<(bool success, string message, List<Dictionary<string, object>> data, int executionTimeMs)> ExecuteAsync(
             string procedureName, 
             string parametersString)
         {
+            var startTime = DateTime.UtcNow;
+
             try
             {
                 using var connection = new SqlConnection(_connectionString);
@@ -54,11 +56,13 @@ namespace DynamicApi.Common
                     data.Add(row);
                 }
 
-                return (true, "Success", data);
+                var executionTime = (int)(DateTime.UtcNow - startTime).TotalMilliseconds;
+                return (true, "Success", data, executionTime);
             }
             catch (Exception ex)
             {
-                return (false, $"Error: {ex.Message}", new List<Dictionary<string, object>>());
+                var executionTime = (int)(DateTime.UtcNow - startTime).TotalMilliseconds;
+                return (false, $"Error: {ex.Message}", new List<Dictionary<string, object>>(), executionTime);
             }
         }
 
