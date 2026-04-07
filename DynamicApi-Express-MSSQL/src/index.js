@@ -14,6 +14,8 @@ const swaggerSpec = require('./config/swagger');
 
 // Import services
 const DynamicApiService = require('./services/dynamicApiService');
+const ProcedureMetadataExtractor = require('./services/procedureMetadataExtractor');
+const TransactionExecutor = require('./services/transactionExecutor');
 
 // Import controllers
 const DynamicApiController = require('./controllers/dynamicApiController');
@@ -67,8 +69,15 @@ app.use(cors(corsOptions));
 // SERVICE AND CONTROLLER INITIALIZATION
 // ============================================================================
 
-// Initialize service with getPool and logger
-const dynamicApiService = new DynamicApiService(getPool, logger);
+// Initialize metadata extractor with getPool and logger
+const procedureMetadataExtractor = new ProcedureMetadataExtractor(getPool, logger);
+
+// Initialize transaction executor with getPool and logger
+const transactionExecutor = new TransactionExecutor(getPool, logger);
+
+// Initialize service with getPool, logger, and metadataExtractor
+const dynamicApiService = new DynamicApiService(getPool, logger, procedureMetadataExtractor);
+dynamicApiService.transactionExecutor = transactionExecutor;
 
 // Initialize controller with service
 const dynamicApiController = new DynamicApiController(dynamicApiService);

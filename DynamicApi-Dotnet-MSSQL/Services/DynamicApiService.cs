@@ -28,15 +28,13 @@ namespace DynamicApi.Services
             string keyValueSeparator = "=",
             string userEmail = "anonymous")
         {
-            var startTime = DateTime.UtcNow;
+            var overallStartTime = DateTime.UtcNow;
 
             try
             {
                 _logger.LogInformation($"Executing procedure: {procedureName}");
 
-                var (success, message, data) = await _executor.ExecuteAsync(procedureName, parameters);
-
-                var executionTime = (int)(DateTime.UtcNow - startTime).TotalMilliseconds;
+                var (success, message, data, executionTimeMs) = await _executor.ExecuteAsync(procedureName, parameters);
 
                 // Log execution
                 var executionLog = new ExecutionLog
@@ -45,7 +43,7 @@ namespace DynamicApi.Services
                     Parameters = parameters,
                     Status = success,
                     Message = message,
-                    ExecutionTime = executionTime,
+                    ExecutionTime = executionTimeMs,
                     CreatedAt = DateTime.UtcNow
                 };
 
@@ -58,6 +56,8 @@ namespace DynamicApi.Services
                 {
                     Status = success,
                     Message = message,
+                    ExecutionTime = executionTimeMs,
+                    Cached = false,
                     Data = data
                 };
             }
@@ -65,12 +65,16 @@ namespace DynamicApi.Services
             {
                 // Log full error server-side for debugging
                 _logger.LogError(ex, $"Error executing procedure {procedureName}");
+                
+                var overallExecutionTime = (int)(DateTime.UtcNow - overallStartTime).TotalMilliseconds;
 
                 // Return generic error message to client (don't expose details)
                 return new ApiResponse<List<Dictionary<string, object>>>
                 {
                     Status = false,
                     Message = "An error occurred executing the procedure. Please contact support if the problem persists.",
+                    ExecutionTime = overallExecutionTime,
+                    Cached = false,
                     Data = new List<Dictionary<string, object>>()
                 };
             }

@@ -14,6 +14,8 @@ const swaggerSpec = require('./config/swagger');
 
 // Import services
 const DynamicApiService = require('./services/dynamicApiService');
+const ProcedureMetadataExtractor = require('./services/procedureMetadataExtractor');
+const TransactionExecutor = require('./services/transactionExecutor');
 
 // Import controllers
 const DynamicApiController = require('./controllers/dynamicApiController');
@@ -87,8 +89,15 @@ const loggingConnection = mysql.createPool({
 // SERVICE AND CONTROLLER INITIALIZATION
 // ============================================================================
 
-// Initialize service with database pools and logger
-const dynamicApiService = new DynamicApiService(pool, loggingConnection, logger);
+// Initialize metadata extractor with database pool and logger
+const procedureMetadataExtractor = new ProcedureMetadataExtractor(async () => pool, logger);
+
+// Initialize transaction executor with database pool and logger
+const transactionExecutor = new TransactionExecutor(async () => pool, logger);
+
+// Initialize service with database pools, metadataExtractor and logger
+const dynamicApiService = new DynamicApiService(pool, loggingConnection, logger, procedureMetadataExtractor);
+dynamicApiService.transactionExecutor = transactionExecutor;
 
 // Initialize controller with service
 const dynamicApiController = new DynamicApiController(dynamicApiService);

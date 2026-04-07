@@ -1,6 +1,7 @@
 using DynamicApi.Data;
 using DynamicApi.Services;
 using DynamicApi.Common;
+using DynamicApi.Auth;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -9,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddHttpClient(); // Required for AuthMiddleware → AUTH_SERVICE_URL delegation
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1.0", new OpenApiInfo { Title = "Dynamic API", Version = "v1.0" });
@@ -34,6 +36,15 @@ builder.Services.AddDbContext<DynamicApiDbContext>(options =>
 builder.Services.AddScoped<StoredProcedureExecutor>(provider => 
     new StoredProcedureExecutor(connectionString));
 builder.Services.AddScoped<DynamicApiService>();
+builder.Services.AddScoped<ProcedureMetadataExtractor>(provider =>
+    new ProcedureMetadataExtractor(connectionString, provider.GetRequiredService<ILogger<ProcedureMetadataExtractor>>()));
+builder.Services.AddScoped<SwaggerSchemaGenerator>();
+builder.Services.AddScoped<TransactionExecutor>(provider =>
+    new TransactionExecutor(
+        provider.GetRequiredService<StoredProcedureExecutor>(),
+        provider.GetRequiredService<DynamicApiDbContext>(),
+        provider.GetRequiredService<ILogger<TransactionExecutor>>(),
+        connectionString));
 
 // Add CORS with restricted origins
 var corsOrigins = builder.Configuration["CorsOrigins"]?.Split(',') ?? new[] { "http://localhost:3000", "http://localhost:8000" };
@@ -71,6 +82,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors(app.Environment.IsDevelopment() ? "AllowDevelopment" : "AllowSpecificOrigins");
+app.UseMiddleware<AuthMiddleware>();
 app.MapControllers();
 
 // ============================================================================

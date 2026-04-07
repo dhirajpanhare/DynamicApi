@@ -12,9 +12,10 @@ class StoredProcedureExecutor {
      * @param {string} parametersString - Parameters in key=value format
      * @param {string} parameterSeparator - Separator between parameters (default: |)
      * @param {string} keyValueSeparator - Separator between key and value (default: =)
-     * @returns {Promise<object>} - { success, message, data }
+     * @returns {Promise<object>} - { success, message, data, executionTime }
      */
     async execute(procedureName, parametersString = '', parameterSeparator = '|', keyValueSeparator = '=') {
+        const startTime = Date.now();
         try {
             const pool = await this.getPool();
             const request = pool.request();
@@ -35,20 +36,24 @@ class StoredProcedureExecutor {
 
             // result.recordset contains the first result set rows
             const data = result.recordset || [];
+            const executionTime = Date.now() - startTime;
 
-            this.logger.info(`Procedure ${procedureName} executed successfully`);
+            this.logger.info(`Procedure ${procedureName} executed successfully in ${executionTime}ms`);
 
             return {
                 success: true,
                 message: 'Success',
-                data: data
+                data: data,
+                executionTime: executionTime
             };
         } catch (error) {
+            const executionTime = Date.now() - startTime;
             this.logger.error(`Error executing procedure ${procedureName}: ${error.message}`);
             return {
                 success: false,
                 message: `Error: ${error.message}`,
-                data: null
+                data: null,
+                executionTime: executionTime
             };
         }
     }

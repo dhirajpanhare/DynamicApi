@@ -153,7 +153,32 @@ API will be available at: `http://localhost:8000/api/v1.0/DynamicApi/`
 }
 ```
 
-### 2. Health Check
+### 2. Generate Payload from Procedure Definition
+
+**Endpoint:** `POST /api/v1.0/DynamicApi/GeneratePayload`
+
+**Description:** Paste a CREATE PROCEDURE SQL definition and receive a ready-to-use payload with sample values.
+
+**Request:**
+```json
+{
+  "procedureDefinition": "CREATE PROCEDURE GetProductById(@ProductId INT, @Category VARCHAR(100)) AS BEGIN SELECT * FROM Products WHERE ProductId = @ProductId; END"
+}
+```
+
+**Response:**
+```json
+{
+  "stringOne": "@ProductId=1|@Category=SampleText",
+  "stringTwo": "|",
+  "stringThree": "=",
+  "stringFour": "GetProductById"
+}
+```
+
+You can then use this response directly in the DynamicApiExecute endpoint!
+
+### 3. Health Check
 
 **Endpoint:** `GET|POST /api/v1.0/DynamicApi/Health`
 

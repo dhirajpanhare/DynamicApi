@@ -14,6 +14,8 @@ namespace DynamicApi.Models
         {
             public bool Status { get; set; }
             public string? Message { get; set; }
+            public int ExecutionTime { get; set; } = 0; // milliseconds
+            public bool Cached { get; set; } = false;   // defaults to false
             public T? Data { get; set; }
         }
 
