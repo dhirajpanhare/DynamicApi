@@ -1,0 +1,51 @@
+name = "dynamic-api-mysql"
+type = "javascript"
+account_id = "YOUR_CLOUDFLARE_ACCOUNT_ID"
+workers_dev = true
+main = "worker.js"
+compatibility_date = "2024-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+[env.production]
+name = "dynamic-api-mysql-prod"
+route = "api.yourdomain.com/mysql/*"
+zone_id = "YOUR_ZONE_ID"
+
+[build]
+command = "npm install"
+cwd = "."
+
+[env.production.vars]
+NODE_ENV = "production"
+MYSQL_HOST = "xxxxx.ap-southeast.psdb.cloud"
+MYSQL_USER = "your_planetscale_user"
+MYSQL_PASSWORD = "your_planetscale_password"
+MYSQL_DATABASE = "dynamicapi_prod"
+MYSQL_PORT = "3306"
+MYSQL_SSL = "true"
+MYSQL_CONNECTION_LIMIT = "5"
+MYSQL_ENABLE_KEEP_ALIVE = "true"
+MYSQL_WAIT_FOR_CONNECTIONS = "true"
+JWT_SECRET = "your-secure-random-secret-key-here-min-32-chars"
+OTP_EMAIL_FROM = "noreply@yourdomain.com"
+SMTP_HOST = "smtp.gmail.com"
+SMTP_PORT = "587"
+SMTP_USER = "your-email@gmail.com"
+SMTP_PASSWORD = "your-app-password"
+ALLOWED_ORIGINS = "https://your-vercel-domain.vercel.app"
+LOG_LEVEL = "info"
+
+[env.development.vars]
+NODE_ENV = "development"
+MYSQL_HOST = "localhost"
+MYSQL_USER = "root"
+MYSQL_PASSWORD = "password"
+MYSQL_DATABASE = "dynamicapi_dev"
+MYSQL_PORT = "3306"
+MYSQL_SSL = "false"
+LOG_LEVEL = "debug"
+
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "dynamic-api-mysql-logs"
+jurisdiction = "eu"

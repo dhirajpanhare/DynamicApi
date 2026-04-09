@@ -1,27 +1,41 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { TestTube, History, BarChart3, Activity, CheckCircle, XCircle, Clock } from "lucide-react";
-import { healthCheck } from "../Services/dynamicApi";
+import { getApiHistory, getUserStorage } from "../utils/localStorage";
+import { AuthContext } from "../context/AuthContext";
+import { getCurrentAPIConfig } from "../config/apiConfig";
 import "./Dashboard.css";
 
 const Dashboard = () => {
+  const { user } = useContext(AuthContext);
   const [stats, setStats] = useState({
     totalCalls: 0,
     successRate: 0,
     avgResponseTime: 0,
     recentCalls: 0
   });
-  const [apiStatus, setApiStatus] = useState({ status: "checking", message: "Checking..." });
 
   useEffect(() => {
-    // Load stats from history
-    const history = JSON.parse(localStorage.getItem("api_history")) || [];
+    // Load stats from user's history
+    if (!user || !user.email) {
+      setStats({
+        totalCalls: 0,
+        successRate: 0,
+        avgResponseTime: 0,
+        recentCalls: 0
+      });
+      return;
+    }
+
+    const apiConfig = getCurrentAPIConfig();
+    const framework = apiConfig?.name || "Unknown";
+    const history = getApiHistory(user.email, framework) || [];
     
     const totalCalls = history.length;
     const successCount = history.filter(h => h.status === "Success").length;
     const successRate = totalCalls > 0 ? ((successCount / totalCalls) * 100).toFixed(1) : 0;
     
-    const totalTime = history.reduce((sum, h) => sum + (h.time || 0), 0);
+    const totalTime = history.reduce((sum, h) => sum + (h.responseTime || 0), 0);
     const avgResponseTime = totalCalls > 0 ? Math.round(totalTime / totalCalls) : 0;
     
     // Recent calls (last 24 hours)
@@ -32,25 +46,7 @@ const Dashboard = () => {
     }).length;
 
     setStats({ totalCalls, successRate, avgResponseTime, recentCalls });
-
-    // Check API health
-    checkHealth();
-  }, []);
-
-  const checkHealth = async () => {
-    try {
-      const response = await healthCheck();
-      setApiStatus({
-        status: "online",
-        message: response.message || "API is operational"
-      });
-    } catch (error) {
-      setApiStatus({
-        status: "offline",
-        message: error.message || "API is offline"
-      });
-    }
-  };
+  }, [user]);
 
   const quickActions = [
     {
@@ -82,11 +78,6 @@ const Dashboard = () => {
         <div>
           <h1 className="dashboard-title">Dynamic API Dashboard</h1>
           <p className="dashboard-subtitle">Monitor and test your stored procedures</p>
-        </div>
-        
-        <div className={`api-status ${apiStatus.status}`}>
-          <Activity size={16} />
-          <span>{apiStatus.message}</span>
         </div>
       </div>
 
@@ -162,12 +153,20 @@ const Dashboard = () => {
 };
 
 const RecentActivity = () => {
+  const { user } = useContext(AuthContext);
   const [recentCalls, setRecentCalls] = useState([]);
 
   useEffect(() => {
-    const history = JSON.parse(localStorage.getItem("api_history")) || [];
+    if (!user || !user.email) {
+      setRecentCalls([]);
+      return;
+    }
+
+    const apiConfig = getCurrentAPIConfig();
+    const framework = apiConfig?.name || "Unknown";
+    const history = getApiHistory(user.email, framework) || [];
     setRecentCalls(history.slice(0, 5));
-  }, []);
+  }, [user]);
 
   if (recentCalls.length === 0) {
     return (
@@ -191,13 +190,13 @@ const RecentActivity = () => {
           </div>
           <div className="activity-content">
             <p className="activity-procedure">{call.procedure}</p>
-            <p className="activity-time">{call.timestamp}</p>
+            <p className="activity-time">{new Date(call.timestamp).toLocaleString()}</p>
           </div>
           <div className="activity-meta">
             <span className={`activity-status ${call.status.toLowerCase()}`}>
               {call.status}
             </span>
-            <span className="activity-duration">{call.time}ms</span>
+            <span className="activity-duration">{call.responseTime}ms</span>
           </div>
         </div>
       ))}

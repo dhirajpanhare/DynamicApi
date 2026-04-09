@@ -1,0 +1,149 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: dynamic-api-dotnet-mssql
+  namespace: default
+  labels:
+    app: dynamic-api
+    version: mssql
+    framework: dotnet
+
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/maxScale: "100"
+        autoscaling.knative.dev/minScale: "1"
+        autoscaling.knative.dev/targetUtilizationPercentage: "75"
+      labels:
+        version: mssql
+    spec:
+      serviceAccountName: default
+      
+      containers:
+      - name: dotnet-mssql-api
+        image: gcr.io/YOUR_PROJECT_ID/dynamic-api-dotnet-mssql:latest
+        
+        # Port configuration
+        ports:
+        - name: http1
+          containerPort: 8080
+        
+        # Resource limits
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "512Mi"
+          limits:
+            cpu: "1000m"
+            memory: "1Gi"
+        
+        # Environment variables
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Production"
+        - name: ASPNETCORE_URLS
+          value: "http://+:8080"
+        - name: DOTNET_RUNNING_IN_CONTAINER
+          value: "true"
+        - name: PORT
+          value: "8080"
+        
+        # MSSQL configuration
+        - name: MSSQLSettings__Server
+          valueFrom:
+            secretKeyRef:
+              name: dotnet-mssql-secret
+              key: server
+        - name: MSSQLSettings__Database
+          valueFrom:
+            secretKeyRef:
+              name: dotnet-mssql-secret
+              key: database
+        - name: MSSQLSettings__UserId
+          valueFrom:
+            secretKeyRef:
+              name: dotnet-mssql-secret
+              key: user
+        - name: MSSQLSettings__Password
+          valueFrom:
+            secretKeyRef:
+              name: dotnet-mssql-secret
+              key: password
+        - name: MSSQLSettings__Encrypt
+          value: "true"
+        - name: MSSQLSettings__TrustServerCertificate
+          value: "false"
+        
+        # Email configuration
+        - name: EmailSettings__SmtpHost
+          valueFrom:
+            secretKeyRef:
+              name: email-config-secret
+              key: smtp_host
+        - name: EmailSettings__SmtpPort
+          valueFrom:
+            secretKeyRef:
+              name: email-config-secret
+              key: smtp_port
+        - name: EmailSettings__SmtpUser
+          valueFrom:
+            secretKeyRef:
+              name: email-config-secret
+              key: smtp_user
+        - name: EmailSettings__SmtpPassword
+          valueFrom:
+            secretKeyRef:
+              name: email-config-secret
+              key: smtp_password
+        - name: EmailSettings__FromAddress
+          valueFrom:
+            secretKeyRef:
+              name: email-config-secret
+              key: otp_from
+        
+        # JWT configuration
+        - name: JwtSettings__Secret
+          valueFrom:
+            secretKeyRef:
+              name: jwt-secret
+              key: secret
+        
+        # CORS configuration
+        - name: Cors__AllowedOrigins
+          value: "https://your-vercel-domain.vercel.app,https://your-custom-domain.com"
+        
+        # Liveness and readiness probes
+        livenessProbe:
+          httpGet:
+            path: /api/v1.0/DynamicApi/Health
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 30
+          timeoutSeconds: 5
+          failureThreshold: 3
+        
+        readinessProbe:
+          httpGet:
+            path: /api/v1.0/DynamicApi/Health
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          timeoutSeconds: 3
+          failureThreshold: 2
+      
+      # Security context
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsReadOnlyRootFilesystem: false
+        capabilities:
+          drop:
+          - all
+      
+      # Request timeout
+      timeoutSeconds: 90
+
+  traffic:
+  - percent: 100
+    latestRevision: true

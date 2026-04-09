@@ -166,6 +166,10 @@
   border-bottom: 1px solid #ecf0f1;
   font-size: 14px;
   color: #2c3e50;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 250px;
 }
 
 .history-table tbody tr:hover {

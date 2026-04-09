@@ -92,7 +92,7 @@ const Analytics = () => {
 
   const frameworkOptions = [
     { name: "All Frameworks", value: "All Frameworks" },
-    ...apiConfigs.map(config => ({ name: config.label, value: config.name }))
+    ...apiConfigs.map(config => ({ name: config.name, value: config.name }))
   ];
 
   return (

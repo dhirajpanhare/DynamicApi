@@ -10,7 +10,8 @@ This is a C# .NET Core implementation of the Dynamic API that executes stored pr
 - **Framework**: .NET 8.0
 - **Database**: MySQL 8.0+
 - **ORM**: Entity Framework Core
-- **Authentication**: JWT
+- **Authentication**: JWT + Email OTP
+- **Email**: SMTP (Gmail, Mailgun, SendGrid)
 - **Documentation**: Swagger/OpenAPI
 
 ## Project Structure
@@ -100,6 +101,78 @@ Update `appsettings.json`:
     "DefaultConnection": "Server=localhost;Port=3306;Database=DynamicApiDb;User=root;Password=123456;"
   },
   "CorsOrigins": "http://localhost:3000,http://localhost:4200,http://localhost:8000,https://yourdomain.com"
+}
+```
+
+---
+
+## Email Authentication Setup
+
+### Gmail SMTP Configuration
+
+1. **Enable 2-Step Verification** on your Gmail account
+2. **Generate App Password** at https://myaccount.google.com/apppasswords
+3. **Update appsettings.json**:
+
+```json
+"Email": {
+  "Provider": "GMAIL",
+  "SenderEmail": "your-email@gmail.com",
+  "GmailUser": "your-email@gmail.com",
+  "GmailAppPassword": "your-app-password",
+  "SmtpServer": "smtp.gmail.com",
+  "SmtpPort": 587,
+  "SmtpUser": "your-email@gmail.com",
+  "SmtpPassword": "your-app-password"
+}
+```
+
+### Send OTP Email
+
+**Endpoint**: `POST /api/v1.0/auth/send-otp`
+
+**Request:**
+```bash
+curl -X POST http://localhost:5001/api/v1.0/auth/send-otp \
+  -H "Content-Type: application/json" \
+  -d '{\"email\": \"user@example.com\"}'
+```
+
+**Response:**
+```json
+{
+  "status": true,
+  "message": "OTP sent to your email",
+  "data": {
+    "email": "user@example.com",
+    "expiresAt": "2026-04-09T10:15:00Z"
+  }
+}
+```
+
+### Verify OTP and Get Token
+
+**Endpoint**: `POST /api/v1.0/auth/verify-otp`
+
+**Request:**
+```bash
+curl -X POST http://localhost:5001/api/v1.0/auth/verify-otp \
+  -H "Content-Type: application/json" \
+  -d '{\"email\": \"user@example.com\", \"otp\": \"123456\"}'
+```
+
+**Response:**
+```json
+{
+  "status": true,
+  "message": "OTP verified successfully",
+  "data": {
+    "token": "eyJhbGciOiJIUzI1NiIs...",
+    "user": {
+      "id": "user-id",
+      "email": "user@example.com"
+    }
+  }
 }
 ```
 

@@ -1,4 +1,6 @@
-# .NET & Visual Studio
+# ============================================================================
+# .NET & VISUAL STUDIO
+# ============================================================================
 bin/
 obj/
 .vs/
@@ -13,13 +15,13 @@ publish/
 *.csproj.locks
 *.csproj.FileListAbsolute.txt
 .localhistory/
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+.DotSettings.user
+project.assets.json
+project.lock.json
 
-# Build Results
+# ============================================================================
+# BUILD RESULTS
+# ============================================================================
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
@@ -34,20 +36,106 @@ bld/
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
+artifacts/
+TestResults/
 
-# Log files
+# ============================================================================
+# LOG FILES
+# ============================================================================
 *.log
 *.xlsx
 logs/
+log/
+*.trx
 
-# Environment/Configuration
+# ============================================================================
+# ENVIRONMENT VARIABLES & SECRETS
+# ============================================================================
 .env
 .env.local
 .env.*.local
+.env.production
+.env.production.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
 appsettings.local.json
 appsettings.Development.json
+appsettings.Production.json
+.env.*.backup
+.env.*.bak
 
-# Database
+# ============================================================================
+# DATABASE
+# ============================================================================
+*.db
+*.sqlite3
+*.sqlite3-journal
+
+# ============================================================================
+# GOOGLE CLOUD
+# ============================================================================
+.gcloudignore
+google-credentials.json
+service-account-key.json
+service-account-*.json
+.gcloud/
+.gcloud-credentials
+
+# ============================================================================
+# DOCKER & DEPLOYMENT
+# ============================================================================
+Dockerfile.bak
+docker-compose.override.yml
+app.yaml.example
+app.yaml.bak
+.cloud-run-config
+cloud-run-*.json
+
+# ============================================================================
+# CREDENTIALS & SECRETS
+# ============================================================================
+credentials.json
+secrets.json
+.secrets/
+*.key
+*.pem
+*.ppk
+private-key.json
+service-account-key.json
+deployment-config.ini
+DEPLOYMENT_CONFIG.ini
+
+# ============================================================================
+# IDE & EDITOR
+# ============================================================================
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+*.iml
+
+# ============================================================================
+# OS FILES
+# ============================================================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
 *.db
 *.sqlite3
 *.sqlite3-journal

@@ -7,7 +7,7 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #f5f7fa;
   position: relative;
   overflow: hidden;
 }
@@ -29,12 +29,15 @@
   position: relative;
   z-index: 10;
   width: 100%;
-  max-width: 420px;
+  max-width: 380px;
   background: white;
-  border-radius: 16px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  padding: 48px 32px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 0;
   animation: slideUp 0.6s ease;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 @keyframes slideUp {
@@ -46,6 +49,30 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* ============================================================================
+   SECTION LAYOUT
+   ============================================================================ */
+
+.otp-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.otp-section-header {
+  padding: 32px 32px 24px 32px;
+  background: white;
+  border-bottom: 1px solid #ecf0f1;
+  text-align: center;
+}
+
+.otp-section-form {
+  padding: 32px;
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .btn-back {
@@ -62,6 +89,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
   margin-bottom: 20px;
+  align-self: flex-start;
 }
 
 .btn-back:hover {
@@ -107,60 +135,68 @@
   text-align: left;
 }
 
-.form-group label {
-  display: block;
-  font-size: 13px;
-  font-weight: 600;
-  color: #2c3e50;
-  margin-bottom: 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+/* ============================================================================
+   OTP INPUT BOXES (6 Individual Segments)
+   ============================================================================ */
+
+.otp-input-container {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin: 24px 0 20px 0;
 }
 
-.otp-input {
-  width: 100%;
-  padding: 16px;
-  font-size: 32px;
+.otp-input-box {
+  width: 50px;
+  height: 60px;
+  padding: 0;
+  font-size: 28px;
   font-weight: 700;
-  letter-spacing: 12px;
-  border: 2px solid #ecf0f1;
-  border-radius: 8px;
   text-align: center;
+  border: 2px solid #ddd;
+  border-radius: 10px;
   transition: all 0.3s ease;
-  background: #f8f9fa;
+  background: #f9f9f9;
   font-family: "Courier New", monospace;
   font-variant-numeric: tabular-nums;
+  outline: none;
 }
 
-.otp-input:focus {
-  outline: none;
+.otp-input-box::placeholder {
+  color: #ccc;
+}
+
+.otp-input-box:focus {
   border-color: #667eea;
   background: white;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+  transform: scale(1.05);
 }
 
-.otp-input:disabled {
-  background: #ecf0f1;
-  cursor: not-allowed;
-  opacity: 0.6;
+.otp-input-box.filled {
+  border-color: #667eea;
+  background: #f0f2ff;
 }
 
-.otp-input.input-error {
+.otp-input-box.error {
   border-color: #e74c3c;
   background: #fadbd8;
 }
 
-.otp-input.complete {
-  border-color: #10b981;
-  background: #d5f4e6;
+.otp-input-box:disabled {
+  background: #ecf0f1;
+  cursor: not-allowed;
+  opacity: 0.6;
+  border-color: #bdc3c7;
 }
 
 .error-text {
   display: block;
-  margin-top: 6px;
+  margin-top: 12px;
   font-size: 12px;
   color: #e74c3c;
   font-weight: 500;
+  text-align: center;
 }
 
 /* ============================================================================
@@ -237,7 +273,7 @@
 .btn-verify-otp {
   width: 100%;
   padding: 12px 16px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #667eea;
   color: white;
   border: none;
   border-radius: 8px;
@@ -252,17 +288,20 @@
 }
 
 .btn-verify-otp:hover:not(:disabled) {
+  background: #5568d3;
   transform: translateY(-2px);
-  box-shadow: 0 8px 16px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
 }
 
 .btn-verify-otp:active:not(:disabled) {
   transform: translateY(0);
+  background: #4854bb;
 }
 
 .btn-verify-otp:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
+  background: #999;
 }
 
 .btn-verify-otp .spinner {
