@@ -301,8 +301,11 @@ class DynamicApiController {
 
             const payload = generatePayload(procedureDefinition);
 
-            // Return payload directly without wrapper
-            return res.status(200).json(payload);
+            return res.status(200).json({
+                status: true,
+                message: 'Payload generated successfully',
+                data: payload
+            });
 
         } catch (error) {
             logger.error(`Error generating payload: ${error.message}`);

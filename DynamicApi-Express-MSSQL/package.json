@@ -18,7 +18,8 @@
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "swagger-ui-express": "^4.6.3",
-    "swagger-jsdoc": "^6.2.8"
+    "swagger-jsdoc": "^6.2.8",
+    "nodemailer": "^6.9.7"
   },
   "devDependencies": {
     "nodemon": "^3.0.1",

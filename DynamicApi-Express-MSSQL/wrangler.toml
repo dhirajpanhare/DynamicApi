@@ -1,0 +1,52 @@
+name = "dynamic-api-mssql"
+type = "javascript"
+account_id = "YOUR_CLOUDFLARE_ACCOUNT_ID"
+workers_dev = true
+main = "worker.js"
+compatibility_date = "2024-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+[env.production]
+name = "dynamic-api-mssql-prod"
+route = "api.yourdomain.com/mssql/*"
+zone_id = "YOUR_ZONE_ID"
+
+[build]
+command = "npm install"
+cwd = "."
+
+[env.production.vars]
+NODE_ENV = "production"
+MSSQL_SERVER = "your-sql-server.database.windows.net"
+MSSQL_DATABASE = "dynamicapi_prod"
+MSSQL_USER = "admin@your-sql-server"
+MSSQL_PASSWORD = "YourSecurePassword123!"
+MSSQL_ENCRYPT = "true"
+MSSQL_TRUST_SERVER_CERTIFICATE = "false"
+MSSQL_REQUEST_TIMEOUT = "5000"
+MSSQL_CONNECTION_TIMEOUT = "15000"
+MSSQL_POOL_MIN = "1"
+MSSQL_POOL_MAX = "5"
+JWT_SECRET = "your-secure-random-secret-key-here-min-32-chars"
+OTP_EMAIL_FROM = "noreply@yourdomain.com"
+SMTP_HOST = "smtp.gmail.com"
+SMTP_PORT = "587"
+SMTP_USER = "your-email@gmail.com"
+SMTP_PASSWORD = "your-app-password"
+ALLOWED_ORIGINS = "https://your-vercel-domain.vercel.app"
+LOG_LEVEL = "info"
+
+[env.development.vars]
+NODE_ENV = "development"
+MSSQL_SERVER = "localhost"
+MSSQL_DATABASE = "dynamicapi_dev"
+MSSQL_USER = "sa"
+MSSQL_PASSWORD = "YourPassword123!"
+MSSQL_ENCRYPT = "false"
+MSSQL_TRUST_SERVER_CERTIFICATE = "true"
+LOG_LEVEL = "debug"
+
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "dynamic-api-mssql-logs"
+jurisdiction = "eu"

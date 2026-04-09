@@ -257,7 +257,206 @@ python manage.py runserver
 
 ---
 
-## 🔌 API Reference
+## � Email OTP Authentication
+
+All implementations now include **email-based OTP (One-Time Password) authentication** with dynamic backend selection and real SMTP email sending via Gmail.
+
+### Features ✅
+
+- **Email OTP Generation**: 6-digit codes sent directly to user email
+- **Configurable Expiry**: Customizable OTP validity period (default: 10 minutes)
+- **Rate Limiting**: Prevent brute force with attempt limits (default: 5 attempts)
+- **Multiple Email Providers**: Gmail, Mailgun, SendGrid, and SMTP
+- **Dynamic Backend Selection**: Switch between email backends without restarting
+- **Frontend Integration**: React component with localStorage persistence
+- **All Platforms Supported**: .NET, Django, and Express implementations
+
+### Email Configuration
+
+#### Gmail SMTP Setup
+
+**Configuration in all backends**:
+
+**appsettings.json** (.NET):
+```json
+"Email": {
+  "Provider": "GMAIL",
+  "SenderEmail": "your-email@gmail.com",
+  "GmailUser": "your-email@gmail.com",
+  "GmailAppPassword": "your-app-password",
+  "SmtpServer": "smtp.gmail.com",
+  "SmtpPort": 587
+}
+```
+
+**.env** (Django/Express):
+```env
+EMAIL_PROVIDER=GMAIL
+SENDER_EMAIL=your-email@gmail.com
+GMAIL_USER=your-email@gmail.com
+GMAIL_APP_PASSWORD=your-app-password
+SMTP_SERVER=smtp.gmail.com
+SMTP_PORT=587
+```
+
+### API Endpoints
+
+#### Send OTP Email
+
+**Endpoint**: `POST /api/v1.0/auth/send-otp`
+
+**Request**:
+```json
+{
+  "email": "user@example.com"
+}
+```
+
+**Response** (200 OK):
+```json
+{
+  "status": true,
+  "message": "OTP sent to your email",
+  "data": {
+    "email": "user@example.com",
+    "expiresAt": "2026-04-09T10:15:00Z"
+  }
+}
+```
+
+#### Verify OTP
+
+**Endpoint**: `POST /api/v1.0/auth/verify-otp`
+
+**Request**:
+```json
+{
+  "email": "user@example.com",
+  "otp": "123456"
+}
+```
+
+**Response** (200 OK):
+```json
+{
+  "status": true,
+  "message": "OTP verified successfully",
+  "data": {
+    "token": "jwt-token-here",
+    "user": {
+      "id": "user-id",
+      "email": "user@example.com"
+    }
+  }
+}
+```
+
+### Frontend Integration
+
+The React frontend includes a **dynamic backend selector** that allows users to switch between all email service implementations without restarting:
+
+```jsx
+// Login page includes:
+<EmailBackendSelector />  // Purple dropdown to choose backend
+<LoginForm />             // Standard email + OTP form
+```
+
+**Features**:
+- 🔄 Switch between any of 7 backends instantly
+- 💾 Selection saved to localStorage
+- 📱 Fully responsive mobile design
+- 🎯 Shows current backend name and port
+
+**Available Backends for Selection**:
+- Express + MongoDB (3001)
+- Express + MSSQL (3002)
+- Express + MySQL (3003)
+- Django + MSSQL (8000)
+- Django + MySQL (8001)
+- .NET + MSSQL (5000)
+- .NET + MySQL (5001)
+
+### Email Service Implementation
+
+#### Supported Providers
+
+| Provider | Status | Config Required | Notes |
+|----------|--------|-----------------|-------|
+| **Gmail** | ✅ Production Ready | App Password | Recommended - most reliable |
+| **SMTP** | ✅ Production Ready | Credentials | Generic SMTP support (any provider) |
+| **Mailgun** | ✅ Production Ready | API Key + Domain | Good for high volume |
+| **SendGrid** | ✅ Production Ready | API Key | Enterprise-grade reliability |
+| **Console** | ✅ Development | None | Logs OTP to console (testing) |
+
+#### Implementation Details
+
+Each backend implements real email sending (not stubs):
+
+**.NET** - Uses `System.Net.Mail.SmtpClient`:
+```csharp
+using (var smtpClient = new SmtpClient("smtp.gmail.com", 587))
+{
+    smtpClient.EnableSsl = true;
+    smtpClient.Credentials = new NetworkCredential(user, password);
+    await smtpClient.SendMailAsync(mailMessage);
+}
+```
+
+**Django** - Uses `django.core.mail`:
+```python
+from django.core.mail import EmailMessage
+email = EmailMessage(subject, message, from_email, [to_email])
+email.send()
+```
+
+**Express** - Uses `nodemailer`:
+```javascript
+const transporter = nodemailer.createTransport({
+  host: process.env.SMTP_SERVER,
+  port: process.env.SMTP_PORT,
+  secure: true,
+  auth: { user, pass }
+});
+await transporter.sendMail(mailOptions);
+```
+
+### OTP Configuration
+
+#### Global Settings
+
+- **OTP Length**: 6 digits
+- **Expiry Time**: 10 minutes (configurable per backend)
+- **Max Attempts**: 5 attempts per OTP
+- **Resend Cooldown**: 30 seconds between requests
+
+#### Per-Backend Configuration
+
+**.NET** (appsettings.json):
+```json
+"Otp": {
+  "Length": 6,
+  "ExpiryMinutes": 10,
+  "MaxAttempts": 5
+}
+```
+
+**Django** (.env):
+```env
+OTP_LENGTH=6
+OTP_EXPIRY_MINUTES=10
+OTP_MAX_ATTEMPTS=5
+```
+
+**Express** (.env):
+```env
+OTP_LENGTH=6
+OTP_EXPIRY_MINUTES=10
+OTP_MAX_ATTEMPTS=5
+```
+
+---
+
+## �🔌 API Reference
 
 ### Unified API Contract
 

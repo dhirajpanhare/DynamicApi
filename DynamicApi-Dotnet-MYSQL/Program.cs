@@ -48,8 +48,12 @@ builder.Services.AddScoped<TransactionExecutor>(provider =>
 });
 builder.Services.AddScoped<DynamicTransactionService>();
 
+// Add Email Service for OTP
+builder.Services.AddHttpClient<IEmailService, EmailService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+
 // Add CORS with restricted origins
-var corsOrigins = builder.Configuration["CorsOrigins"]?.Split(',') ?? new[] { "http://localhost:3000", "http://localhost:8000" };
+var corsOrigins = builder.Configuration["CorsOrigins"]?.Split(',') ?? new[] { "http://localhost:3000", "http://localhost:8000","http://localhost:5173" };
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigins", builder =>

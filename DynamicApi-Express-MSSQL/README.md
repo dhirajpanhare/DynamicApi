@@ -1,14 +1,16 @@
 # DynamicApi-Express - Node.js Implementation
 
 ## Overview
-This is a Node.js Express implementation of the Dynamic API that executes stored procedures dynamically with MySQL. Execute any allowed stored procedure with flexible parameters without authentication.
+This is a Node.js Express implementation of the Dynamic API that executes stored procedures dynamically with MSSQL. Includes email-based OTP authentication for secure access.
 
 ## Technologies Used
-- **Framework**: Express.js
-- **Database**: MySQL 5.7+
-- **Database Driver**: mysql2/promise
+- **Framework**: Express.js 4.18+
+- **Database**: MSSQL 2019+
+- **Database Driver**: tedious (mssql package)
+- **Authentication**: JWT + Email OTP
+- **Email**: Nodemailer (Gmail, SMTP support)
 - **Documentation**: Swagger/OpenAPI
- - **CORS**: Cross-Origin Resource Sharing enabled (http://localhost:3000, http://localhost:4200, http://localhost:8000)
+- **CORS**: Cross-Origin Resource Sharing enabled
 - **Environment**: Dotenv for configuration
 
 ## Project Architecture
@@ -164,6 +166,82 @@ npm run dev
 ### Health Check
 - **URL**: `GET /health`
 - **Description**: Returns server health status
+
+## Email Authentication Setup
+
+### Gmail SMTP Configuration
+
+Update `.env` with Gmail credentials:
+
+```env
+# Email Configuration
+EMAIL_PROVIDER=GMAIL
+SENDER_EMAIL=your-email@gmail.com
+GMAIL_USER=your-email@gmail.com
+GMAIL_APP_PASSWORD=your-app-password
+SMTP_SERVER=smtp.gmail.com
+SMTP_PORT=587
+
+# OTP Configuration
+OTP_LENGTH=6
+OTP_EXPIRY_MINUTES=10
+OTP_MAX_ATTEMPTS=5
+```
+
+**Note**: To generate an app password:
+1. Enable 2-Step Verification on your Gmail account
+2. Visit https://myaccount.google.com/apppasswords
+3. Select "Mail" and "Windows Computer"
+4. Copy the generated 16-character password
+
+### Send OTP Email
+
+**Endpoint**: `POST /api/v1.0/auth/send-otp`
+
+**Request:**
+```bash
+curl -X POST http://localhost:3002/api/v1.0/auth/send-otp \
+  -H "Content-Type: application/json" \
+  -d '{\"email\": \"user@example.com\"}'
+```
+
+**Response:**
+```json
+{
+  "status": true,
+  "message": "OTP sent to your email",
+  "data": {
+    "email": "user@example.com",
+    "expiresAt": "2026-04-09T10:15:00Z"
+  }
+}
+```
+
+### Verify OTP and Get Token
+
+**Endpoint**: `POST /api/v1.0/auth/verify-otp`
+
+**Request:**
+```bash
+curl -X POST http://localhost:3002/api/v1.0/auth/verify-otp \
+  -H "Content-Type: application/json" \
+  -d '{\"email\": \"user@example.com\", \"otp\": \"123456\"}'
+```
+
+**Response:**
+```json
+{
+  "status": true,
+  "message": "OTP verified successfully",
+  "data": {
+    "token": "eyJhbGciOiJIUzI1NiIs...",
+    "user": {
+      "id": "user-id",
+      "email": "user@example.com"
+    }
+  }
+}
+```
 
 ### API Documentation
 - **Swagger UI**: http://localhost:3000/api/v1.0/docs

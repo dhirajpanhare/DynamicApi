@@ -13,6 +13,8 @@ const swaggerJsdoc = require('swagger-jsdoc');
 const logger = require('./utils/logger');
 const { initializeController } = require('./controllers/dynamicApiController');
 const apiRoutes = require('./routes/apiRoutes');
+const authRoutes = require('./routes/authRoutes');
+const { initializeEmailService } = require('./services/emailService');
 const errorHandler = require('./middleware/errorHandler');
 const loggingMiddleware = require('./middleware/loggingMiddleware');
 
@@ -195,6 +197,9 @@ async function connectDatabase() {
     // Initialize controller with mongoose connection
     initializeController(mongoose);
 
+    // Initialize email service
+    await initializeEmailService();
+
     return true;
   } catch (error) {
     logger.error(`❌ MongoDB connection error: ${error.message}`);
@@ -239,6 +244,9 @@ app.get('/api/health', (req, res) => {
 // API routes
 app.use('/api/v1.0/DynamicApi', apiRoutes);
 
+// Authentication routes
+app.use('/api/v1.0/auth', authRoutes);
+
 // Root endpoint
 app.get('/', (req, res) => {
   res.json({
@@ -247,6 +255,8 @@ app.get('/', (req, res) => {
     description: 'Universal MongoDB Operations API',
     documentation: 'http://localhost:' + PORT + '/api/docs',
     endpoints: {
+      'Send OTP': 'POST /api/v1.0/auth/send-otp',
+      'Verify OTP': 'POST /api/v1.0/auth/verify-otp',
       'Execute Operation (Legacy)': 'POST /api/v1.0/DynamicApi/DynamicApiExecute',
       'Execute Operation (JSON)': 'POST /api/v1.0/DynamicApi/Operations',
       'Get Collections': 'GET /api/v1.0/DynamicApi/Collections',

@@ -251,9 +251,9 @@ namespace DynamicApi.Controllers
         /// with sample values based on each parameter's data type.
         /// </summary>
         /// <param name="request">Request containing the SQL procedure definition</param>
-        /// <returns>Ready-to-use DynamicApiExecute payload (direct object without wrapper)</returns>
+        /// <returns>Ready-to-use DynamicApiExecute payload</returns>
         [HttpPost("GeneratePayload")]
-        [ProducesResponseType(typeof(GeneratedPayloadResponse), 200)]
+        [ProducesResponseType(typeof(ApiResponse<GeneratedPayloadResponse>), 200)]
         [ProducesResponseType(400)]
         public IActionResult GeneratePayload([FromBody] GeneratePayloadRequest request)
         {
@@ -270,17 +270,22 @@ namespace DynamicApi.Controllers
             try
             {
                 var payload = ProcedurePayloadGenerator.Generate(request.ProcedureDefinition);
-
-                // Return only the four string fields without parameters array
+                
+                // Map to response format (exclude Parameters array)
                 var response = new GeneratedPayloadResponse
                 {
-                    StringOne = payload.StringOne,
-                    StringTwo = payload.StringTwo,
+                    StringOne   = payload.StringOne,
+                    StringTwo   = payload.StringTwo,
                     StringThree = payload.StringThree,
-                    StringFour = payload.StringFour
+                    StringFour  = payload.StringFour
                 };
 
-                return Ok(response);
+                return Ok(new ApiResponse<GeneratedPayloadResponse>
+                {
+                    Status  = true,
+                    Message = "Payload generated successfully",
+                    Data    = response
+                });
             }
             catch (ArgumentException ex)
             {

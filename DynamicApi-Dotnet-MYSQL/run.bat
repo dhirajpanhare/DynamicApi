@@ -3,7 +3,7 @@ REM Simple script to run DynamicApi in Development mode
 
 echo.
 echo ========================================
-echo   Dynamic API - Starting on Port 5000
+echo   Dynamic API - Starting on Port 5001
 echo ========================================
 echo.
 

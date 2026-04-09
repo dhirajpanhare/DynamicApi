@@ -2,7 +2,14 @@
 
 ## Overview
 
-This is a Django REST Framework implementation of the Dynamic API that enables direct execution of stored procedures without creating specific endpoints for each procedure.
+This is a Django REST Framework implementation of the Dynamic API that enables direct execution of stored procedures without creating specific endpoints for each procedure. Includes email-based OTP authentication.
+
+## Technologies Used
+- **Framework**: Django 4.2 + Django REST Framework
+- **Database**: MSSQL 2019+
+- **Authentication**: JWT + Email OTP
+- **Email**: SMTP (Gmail, Mailgun, SendGrid)
+- **Documentation**: drf-spectacular (Swagger/OpenAPI)
 
 ## Project Structure
 
@@ -270,6 +277,82 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
+}
+```
+
+## Email Authentication Setup
+
+### Gmail SMTP Configuration
+
+Update `.env` with Gmail credentials:
+
+```env
+# Email Configuration
+EMAIL_PROVIDER=GMAIL
+SENDER_EMAIL=your-email@gmail.com
+GMAIL_USER=your-email@gmail.com
+GMAIL_APP_PASSWORD=your-app-password
+SMTP_SERVER=smtp.gmail.com
+SMTP_PORT=587
+
+# OTP Configuration
+OTP_LENGTH=6
+OTP_EXPIRY_MINUTES=10
+OTP_MAX_ATTEMPTS=5
+```
+
+**Note**: To generate an app password:
+1. Enable 2-Step Verification on your Gmail account
+2. Visit https://myaccount.google.com/apppasswords
+3. Select "Mail" and "Windows Computer"
+4. Copy the generated 16-character password
+
+### Send OTP Email
+
+**Endpoint**: `POST /api/v1.0/auth/send-otp`
+
+**Request:**
+```bash
+curl -X POST http://localhost:8000/api/v1.0/auth/send-otp \
+  -H "Content-Type: application/json" \
+  -d '{\"email\": \"user@example.com\"}'
+```
+
+**Response:**
+```json
+{
+  "status": true,
+  "message": "OTP sent to your email",
+  "data": {
+    "email": "user@example.com",
+    "expiresAt": "2026-04-09T10:15:00Z"
+  }
+}
+```
+
+### Verify OTP and Get Token
+
+**Endpoint**: `POST /api/v1.0/auth/verify-otp`
+
+**Request:**
+```bash
+curl -X POST http://localhost:8000/api/v1.0/auth/verify-otp \
+  -H "Content-Type: application/json" \
+  -d '{\"email\": \"user@example.com\", \"otp\": \"123456\"}'
+```
+
+**Response:**
+```json
+{
+  "status": true,
+  "message": "OTP verified successfully",
+  "data": {
+    "token": "eyJhbGciOiJIUzI1NiIs...",
+    "user": {
+      "id": "user-id",
+      "email": "user@example.com"
+    }
+  }
 }
 ```
 

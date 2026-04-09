@@ -1,0 +1,203 @@
+# ============================================================================
+# DEPENDENCIES
+# ============================================================================
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+bun.lockb
+.npm/
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# ============================================================================
+# PRODUCTION & BUILD OUTPUT
+# ============================================================================
+dist/
+dist-ssr/
+build/
+output/
+*.tar.gz
+.vite/
+.next/
+out/
+
+# ============================================================================
+# VITE SPECIFIC
+# ============================================================================
+.vite/
+.vite-cache/
+
+# ============================================================================
+# LOGS
+# ============================================================================
+logs/
+logs/*
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+pnpm-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+debug.log
+
+# ============================================================================
+# ENVIRONMENT VARIABLES & SECRETS (LOCAL/SENSITIVE)
+# ============================================================================
+# Local environment files
+.env
+.env.local
+.env.*.local
+.env.development.local
+.env.production.local
+.env.test.local
+.env.staging.local
+
+# Backup environment files
+.env.*.backup
+.env.*.bak
+
+# Credentials
+credentials.json
+secrets.json
+.secrets
+
+# ============================================================================
+# IDE & EDITOR
+# ============================================================================
+.vscode/*
+!.vscode/extensions.json
+.vscode/*.json
+.vscode/settings.json
+.vscode/launch.json
+.vscode/extensions.json.bak
+
+.idea/
+*.iml
+.gradle
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# ============================================================================
+# OS SPECIFIC FILES
+# ============================================================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# ============================================================================
+# TESTING
+# ============================================================================
+coverage/
+.nyc_output/
+junit.xml
+test-results/
+.pytest_cache/
+htmlcov/
+.coverage
+*.cover
+vitest.coverage/
+
+# ============================================================================
+# MISCELLANEOUS
+# ============================================================================
+*.swp
+*.swo
+*~
+*.orig
+.DS_Store
+.env.*.swp
+.env.*.swo
+
+# Editor backups
+*.bak
+*.backup
+*.tmp
+*.temp
+
+# Cache files
+.cache/
+.eslintcache
+.prettierignore.local
+
+# Vercel
+.vercel/
+.vercel-debug.log
+.vercel-test.log
+
+# pnpm
+.store/
+
+# ============================================================================
+# KEEP THESE FILES (Use ! to un-ignore)
+# ============================================================================
+!.env.example
+!.env.local.example
+!.env.production.example
+!.vscode/settings.json
+.idea/
+.idea
+*.suo
+*.sln
+*.csproj
+*.njsproj
+*.ntvs*
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.#*
+*#
+
+# ============================================================================
+# Operating System
+# ============================================================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ============================================================================
+# Testing
+# ============================================================================
+coverage/
+.nyc_output/
+*.lcov
+
+# ============================================================================
+# Temporary Files
+# ============================================================================
+*.tmp
+*.temp
+.turbo
+.next
+
+# ============================================================================
+# OS Specific Files (Windows)
+# ============================================================================
+Thumbs.db
+*.stackdump
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-rt][a-z]

@@ -1,0 +1,419 @@
+/* ============================================================================
+   OTP VERIFICATION PAGE STYLING
+   ============================================================================ */
+
+.otp-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: #f5f7fa;
+  position: relative;
+  overflow: hidden;
+}
+
+.otp-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.1;
+  background-image: radial-gradient(circle at 20% 50%, white 1px, transparent 1px),
+    radial-gradient(circle at 80% 80%, white 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+}
+
+.otp-card {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 380px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 0;
+  animation: slideUp 0.6s ease;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================================================
+   SECTION LAYOUT
+   ============================================================================ */
+
+.otp-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.otp-section-header {
+  padding: 32px 32px 24px 32px;
+  background: white;
+  border-bottom: 1px solid #ecf0f1;
+  text-align: center;
+}
+
+.otp-section-form {
+  padding: 32px;
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.btn-back {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: transparent;
+  border: 1px solid #ecf0f1;
+  border-radius: 6px;
+  color: #667eea;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 20px;
+  align-self: flex-start;
+}
+
+.btn-back:hover {
+  border-color: #667eea;
+  background: #f0f2ff;
+}
+
+.otp-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.otp-header h1 {
+  font-size: 28px;
+  font-weight: 800;
+  color: #2c3e50;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.5px;
+}
+
+.otp-subtitle {
+  font-size: 14px;
+  color: #7f8c8d;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.otp-subtitle strong {
+  color: #667eea;
+  font-weight: 600;
+}
+
+/* ============================================================================
+   FORM STYLING
+   ============================================================================ */
+
+.otp-form {
+  margin-bottom: 24px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+/* ============================================================================
+   OTP INPUT BOXES (6 Individual Segments)
+   ============================================================================ */
+
+.otp-input-container {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin: 24px 0 20px 0;
+}
+
+.otp-input-box {
+  width: 50px;
+  height: 60px;
+  padding: 0;
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  background: #f9f9f9;
+  font-family: "Courier New", monospace;
+  font-variant-numeric: tabular-nums;
+  outline: none;
+}
+
+.otp-input-box::placeholder {
+  color: #ccc;
+}
+
+.otp-input-box:focus {
+  border-color: #667eea;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+  transform: scale(1.05);
+}
+
+.otp-input-box.filled {
+  border-color: #667eea;
+  background: #f0f2ff;
+}
+
+.otp-input-box.error {
+  border-color: #e74c3c;
+  background: #fadbd8;
+}
+
+.otp-input-box:disabled {
+  background: #ecf0f1;
+  cursor: not-allowed;
+  opacity: 0.6;
+  border-color: #bdc3c7;
+}
+
+.error-text {
+  display: block;
+  margin-top: 12px;
+  font-size: 12px;
+  color: #e74c3c;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* ============================================================================
+   TIMER
+   ============================================================================ */
+
+.timer {
+  text-align: center;
+  font-size: 12px;
+  color: #7f8c8d;
+  margin-bottom: 20px;
+  padding: 12px;
+  background: #f0f2ff;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.timer strong {
+  color: #667eea;
+  font-weight: 700;
+  font-family: "Courier New", monospace;
+}
+
+.timer.expired {
+  background: #fadbd8;
+  color: #c0392b;
+}
+
+.timer.expired strong {
+  color: #c0392b;
+}
+
+/* ============================================================================
+   ALERTS
+   ============================================================================ */
+
+.alert {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.alert-error {
+  background: #fadbd8;
+  color: #c0392b;
+  border: 1px solid #f5b7b1;
+}
+
+.alert svg {
+  flex-shrink: 0;
+}
+
+/* ============================================================================
+   BUTTONS
+   ============================================================================ */
+
+.btn-verify-otp {
+  width: 100%;
+  padding: 12px 16px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-verify-otp:hover:not(:disabled) {
+  background: #5568d3;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+}
+
+.btn-verify-otp:active:not(:disabled) {
+  transform: translateY(0);
+  background: #4854bb;
+}
+
+.btn-verify-otp:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #999;
+}
+
+.btn-verify-otp .spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================================================
+   INFO & HELP SECTIONS
+   ============================================================================ */
+
+.otp-info {
+  background: #f0f2ff;
+  border: 1px solid #e8ebff;
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.otp-info p {
+  margin: 0;
+  font-size: 12px;
+  color: #667eea;
+  line-height: 1.5;
+}
+
+.otp-info strong {
+  font-weight: 700;
+}
+
+.otp-help {
+  text-align: center;
+  padding-top: 16px;
+  border-top: 1px solid #ecf0f1;
+}
+
+.otp-help p {
+  margin: 0;
+  font-size: 13px;
+  color: #7f8c8d;
+}
+
+.btn-resend {
+  display: inline;
+  background: none;
+  border: none;
+  color: #667eea;
+  font-weight: 700;
+  cursor: pointer;
+  margin-left: 4px;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+  font-size: inherit;
+  padding: 0;
+}
+
+.btn-resend:hover {
+  color: #764ba2;
+}
+
+/* ============================================================================
+   RESPONSIVE DESIGN
+   ============================================================================ */
+
+@media (max-width: 768px) {
+  .otp-card {
+    margin: 20px;
+    padding: 32px 24px;
+    max-width: none;
+  }
+
+  .otp-header h1 {
+    font-size: 24px;
+  }
+
+  .otp-input {
+    font-size: 28px;
+    letter-spacing: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .otp-card {
+    margin: 16px;
+    padding: 24px 16px;
+  }
+
+  .otp-header h1 {
+    font-size: 20px;
+  }
+
+  .otp-subtitle {
+    font-size: 13px;
+  }
+
+  .otp-input {
+    font-size: 24px;
+    letter-spacing: 6px;
+    padding: 12px;
+  }
+
+  .btn-verify-otp {
+    font-size: 13px;
+    padding: 10px 14px;
+  }
+}

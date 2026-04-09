@@ -25,6 +25,9 @@ def main():
     logging.basicConfig(level=logging.INFO)
     logger = logging.getLogger(__name__)
     
+    # Get port from environment or use default (8000 for MSSQL backend)
+    port = os.environ.get('DJANGO_PORT', '8000')
+    
     # Print startup information
     print("\n" + "="*60)
     print("  Django Dynamic API - Starting Development Server")
@@ -35,17 +38,17 @@ def main():
     print(f"[STARTUP] CORS_ALLOWED_ORIGINS: {settings.CORS_ALLOWED_ORIGINS}")
     print()
     print("[STARTUP] API Endpoints:")
-    print("  - Swagger UI: http://localhost:8000/api/docs/swagger/")
-    print("  - ReDoc: http://localhost:8000/api/docs/redoc/")
-    print("  - OpenAPI Schema: http://localhost:8000/api/schema/")
-    print("  - API Endpoint: http://localhost:8000/api/v1.0/DynamicApi/DynamicApiExecute")
+    print(f"  - Swagger UI: http://localhost:{port}/api/docs/swagger/")
+    print(f"  - ReDoc: http://localhost:{port}/api/docs/redoc/")
+    print(f"  - OpenAPI Schema: http://localhost:{port}/api/schema/")
+    print(f"  - API Endpoint: http://localhost:{port}/api/v1.0/DynamicApi/DynamicApiExecute")
     print()
-    print("[STARTUP] Running on: http://localhost:8000")
+    print(f"[STARTUP] Running on: http://localhost:{port}")
     print("[STARTUP] Press CTRL+C to stop the server")
     print("="*60 + "\n")
     
     # Run the development server
-    execute_from_command_line(['manage.py', 'runserver', '0.0.0.0:8000'])
+    execute_from_command_line(['manage.py', 'runserver', f'0.0.0.0:{port}'])
 
 
 if __name__ == '__main__':
