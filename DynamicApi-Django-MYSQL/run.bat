@@ -3,7 +3,7 @@ REM Simple script to run Django Dynamic API in Development mode
 
 echo.
 echo ========================================
-echo   Django Dynamic API - Starting on Port 8000
+echo   Django Dynamic API - Starting on Port 8001
 echo ========================================
 echo.
 

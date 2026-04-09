@@ -382,8 +382,7 @@ def generate_payload(request):
         'stringTwo': param_separator,
         'stringThree': kv_separator,
         'stringFour': parsed['procedureName'],
+        'parameters': parsed['parameters'],
     }
 
-    # Return payload directly without wrapper
-    return Response(payload)
-
+    return Response({'status': True, 'message': 'Payload generated successfully', 'data': payload})

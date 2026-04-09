@@ -1,0 +1,526 @@
+/* ============================================================================
+   MODAL OVERLAY - BACKDROP
+   ============================================================================ */
+.payload-generator-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ============================================================================
+   MODAL CONTAINER
+   ============================================================================ */
+.payload-generator-modal {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  max-width: 90vw;
+  height: 90vh;
+  width: 100%;
+  max-width: 1400px;
+  animation: slideUp 0.3s ease;
+  overflow: hidden;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ============================================================================
+   MODAL HEADER
+   ============================================================================ */
+.generator-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px;
+  border-bottom: 2px solid #ecf0f1;
+  flex-shrink: 0;
+}
+
+.generator-modal-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0;
+}
+
+.btn-close {
+  background: none;
+  border: none;
+  color: #7f8c8d;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.3s ease;
+  border-radius: 8px;
+}
+
+.btn-close:hover {
+  color: #2c3e50;
+  background: #f0f2f5;
+}
+
+/* ============================================================================
+   MODAL CONTENT - TWO SECTION LAYOUT
+   ============================================================================ */
+.generator-modal-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  flex: 1;
+  overflow: hidden;
+  padding: 24px;
+}
+
+/* ============================================================================
+   LEFT SECTION - INPUT
+   ============================================================================ */
+.generator-left-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow: hidden;
+}
+
+/* ============================================================================
+   RIGHT SECTION - OUTPUT
+   ============================================================================ */
+.generator-right-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow: hidden;
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 20px;
+  border: 2px solid #ecf0f1;
+  min-height: 0;
+}
+
+/* ============================================================================
+   SECTION HEADERS
+   ============================================================================ */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.section-header h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0;
+}
+
+/* ============================================================================
+   INPUT TEXTAREA
+   ============================================================================ */
+.generator-textarea {
+  flex: 1;
+  padding: 16px;
+  border: 2px solid #ecf0f1;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: 'Courier New', monospace;
+  resize: none;
+  transition: all 0.3s ease;
+  line-height: 1.5;
+  color: #2c3e50;
+  background: white;
+}
+
+.generator-textarea:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.generator-textarea::placeholder {
+  color: #bdc3c7;
+}
+
+/* ============================================================================
+   BUTTONS - GENERATE & COPY
+   ============================================================================ */
+.btn-generate {
+  padding: 12px 20px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.btn-generate:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.btn-generate:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-generate:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-copy {
+  padding: 8px 14px;
+  background: white;
+  color: #667eea;
+  border: 2px solid #667eea;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.btn-copy:hover {
+  background: #667eea;
+  color: white;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.btn-copy.copied {
+  background: #4caf50;
+  border-color: #4caf50;
+  color: white;
+}
+
+.btn-primary {
+  padding: 12px 20px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.btn-link {
+  background: none;
+  border: none;
+  color: #667eea;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+  transition: color 0.3s ease;
+}
+
+.btn-link:hover {
+  color: #764ba2;
+}
+
+/* ============================================================================
+   PAYLOAD OUTPUT SECTION
+   ============================================================================ */
+.payload-output {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow: hidden;
+  flex: 1;
+  min-height: 0;
+}
+
+.payload-json {
+  flex: 1;
+  background: white;
+  border: 2px solid #ecf0f1;
+  border-radius: 8px;
+  padding: 16px;
+  overflow: auto;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #2c3e50;
+  font-family: 'Courier New', monospace;
+  border-left: 4px solid #667eea;
+  max-height: 300px;
+}
+
+.payload-json code {
+  font-family: 'Courier New', monospace;
+  color: inherit;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+
+/* JSON Syntax Highlighting */
+.payload-json {
+  color: #2c3e50;
+}
+
+/* ============================================================================
+   PAYLOAD DETAILS
+   ============================================================================ */
+.payload-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: white;
+  border-radius: 8px;
+  padding: 12px;
+  border: 1px solid #ecf0f1;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.detail-item {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 8px;
+  border-bottom: 1px solid #f0f2f5;
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+}
+
+.detail-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #667eea;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.detail-value {
+  font-size: 13px;
+  color: #2c3e50;
+  font-family: 'Courier New', monospace;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  line-height: 1.4;
+}
+
+/* ============================================================================
+   EMPTY STATE
+   ============================================================================ */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  height: 100%;
+  min-height: 200px;
+  color: #bdc3c7;
+  padding: 20px;
+}
+
+.empty-state svg {
+  opacity: 0.3;
+}
+
+.empty-state p {
+  font-size: 14px;
+  margin: 0;
+  text-align: center;
+}
+
+/* ============================================================================
+   ERROR MESSAGE
+   ============================================================================ */
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: #fee;
+  color: #c33;
+  border-radius: 8px;
+  font-size: 14px;
+  border-left: 4px solid #c33;
+}
+
+/* ============================================================================
+   ANIMATION - SPIN
+   ============================================================================ */
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================================================
+   RESPONSIVE DESIGN
+   ============================================================================ */
+@media (max-width: 1200px) {
+  .generator-modal-content {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 16px;
+  }
+
+  .generator-left-section,
+  .generator-right-section {
+    min-height: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .payload-generator-modal {
+    max-width: 95vw;
+    height: 95vh;
+    border-radius: 12px;
+  }
+
+  .generator-modal-header {
+    padding: 16px;
+  }
+
+  .generator-modal-title {
+    font-size: 20px;
+  }
+
+  .generator-modal-content {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .generator-left-section,
+  .generator-right-section {
+    min-height: 250px;
+  }
+
+  .payload-json {
+    font-size: 12px;
+  }
+
+  .detail-label {
+    min-width: 100px;
+  }
+}
+
+@media (max-width: 480px) {
+  .payload-generator-modal-overlay {
+    padding: 16px;
+  }
+
+  .payload-generator-modal {
+    max-height: calc(100vh - 32px);
+    border-radius: 8px;
+  }
+
+  .generator-modal-header {
+    padding: 12px;
+    gap: 8px;
+  }
+
+  .generator-modal-title {
+    font-size: 18px;
+  }
+
+  .generator-modal-content {
+    grid-template-columns: 1fr;
+    padding: 8px;
+    gap: 8px;
+  }
+
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .btn-generate,
+  .btn-primary {
+    font-size: 14px;
+    padding: 10px 16px;
+  }
+
+  .payload-json {
+    font-size: 11px;
+    padding: 12px;
+  }
+}
+
+/* ============================================================================
+   SCROLLBAR STYLING
+   ============================================================================ */
+.generator-textarea::-webkit-scrollbar,
+.payload-json::-webkit-scrollbar {
+  width: 8px;
+}
+
+.generator-textarea::-webkit-scrollbar-track,
+.payload-json::-webkit-scrollbar-track {
+  background: #f0f2f5;
+  border-radius: 4px;
+}
+
+.generator-textarea::-webkit-scrollbar-thumb,
+.payload-json::-webkit-scrollbar-thumb {
+  background: #bdc3c7;
+  border-radius: 4px;
+}
+
+.generator-textarea::-webkit-scrollbar-thumb:hover,
+.payload-json::-webkit-scrollbar-thumb:hover {
+  background: #95a5a6;
+}

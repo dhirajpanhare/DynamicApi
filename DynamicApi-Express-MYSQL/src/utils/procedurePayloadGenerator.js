@@ -184,7 +184,8 @@ function generatePayload(procedureDefinition) {
         stringOne,
         stringTwo: paramSeparator,
         stringThree: kvSeparator,
-        stringFour: procedureName
+        stringFour: procedureName,
+        parameters
     };
 }
 

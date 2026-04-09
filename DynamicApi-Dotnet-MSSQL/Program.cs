@@ -46,6 +46,10 @@ builder.Services.AddScoped<TransactionExecutor>(provider =>
         provider.GetRequiredService<ILogger<TransactionExecutor>>(),
         connectionString));
 
+// Add Email Service for OTP
+builder.Services.AddHttpClient<IEmailService, EmailService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+
 // Add CORS with restricted origins
 var corsOrigins = builder.Configuration["CorsOrigins"]?.Split(',') ?? new[] { "http://localhost:3000", "http://localhost:8000" };
 builder.Services.AddCors(options =>

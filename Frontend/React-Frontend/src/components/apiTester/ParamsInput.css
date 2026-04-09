@@ -1,0 +1,82 @@
+.params-input {
+  margin-bottom: 24px;
+}
+
+.params-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.param-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.param-input {
+  padding: 10px 14px;
+  border: 2px solid #ecf0f1;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+  font-family: inherit;
+}
+
+.param-input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.btn-remove {
+  width: 36px;
+  height: 36px;
+  background: #fee;
+  color: #c33;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.btn-remove:hover {
+  background: #fcc;
+}
+
+.btn-add {
+  width: 100%;
+  padding: 10px 16px;
+  background: #f8f9fa;
+  color: #667eea;
+  border: 2px dashed #667eea;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.btn-add:hover {
+  background: #667eea;
+  color: white;
+  border-style: solid;
+}
+
+@media (max-width: 640px) {
+  .param-row {
+    grid-template-columns: 1fr;
+  }
+
+  .btn-remove {
+    width: 100%;
+  }
+}

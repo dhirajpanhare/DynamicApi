@@ -250,14 +250,22 @@ function registerApiRoutes(router, dynamicApiController) {
      *                 example: "CREATE PROCEDURE `InsertProduct`(IN p_ProductName VARCHAR(150), IN p_Price DECIMAL(10,2), IN p_Category VARCHAR(100)) BEGIN INSERT INTO Products VALUES(p_ProductName, p_Price, p_Category); END"
      *     responses:
      *       200:
-     *         description: Payload generated successfully (returns payload directly)
+     *         description: Payload generated successfully
      *         content:
      *           application/json:
      *             example:
-     *               stringOne: "p_ProductName=SampleText|p_Price=0.00|p_Category=SampleText"
-     *               stringTwo: "|"
-     *               stringThree: "="
-     *               stringFour: "InsertProduct"
+     *               status: true
+     *               message: "Payload generated successfully"
+     *               data:
+     *                 stringOne: "p_ProductName=SampleText|p_Price=0.00|p_Category=SampleText"
+     *                 stringTwo: "|"
+     *                 stringThree: "="
+     *                 stringFour: "InsertProduct"
+     *                 parameters:
+     *                   - name: "p_ProductName"
+     *                     mode: "IN"
+     *                     type: "VARCHAR(150)"
+     *                     sampleValue: "SampleText"
      *       400:
      *         description: Invalid or unparseable procedure definition
      */

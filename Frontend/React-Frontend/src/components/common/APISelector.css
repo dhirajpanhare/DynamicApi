@@ -1,0 +1,356 @@
+/* ============================================================================
+   API SELECTOR COMPONENT
+   ============================================================================ */
+
+.api-selector-container {
+  position: relative;
+  z-index: 100;
+  width: 100%;
+}
+
+.api-selector-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: white;
+  border: 2px solid #ecf0f1;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #667eea;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  min-width: fit-content;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.api-selector-button:hover {
+  background: #f8f9fa;
+  border-color: #667eea;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.15);
+}
+
+.api-selector-button:active {
+  transform: scale(0.98);
+}
+
+.api-selector-label {
+  font-weight: 700;
+  flex: 1;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.api-selector-button svg:last-child {
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.api-selector-button svg.open {
+  transform: rotate(180deg);
+}
+
+/* ============================================================================
+   DROPDOWN MENU
+   ============================================================================ */
+
+.api-selector-dropdown {
+  position: fixed;
+  top: auto;
+  left: auto;
+  right: auto;
+  background: white;
+  border: 2px solid #ecf0f1;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  z-index: 10000;
+  width: calc(100vw - 40px);
+  max-width: 420px;
+  max-height: 70vh;
+  overflow-y: auto;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.api-selector-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #ecf0f1;
+  background: white;
+  position: sticky;
+  top: 0;
+  z-index: 10001;
+}
+
+.api-selector-header h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0;
+}
+
+.health-check-btn {
+  padding: 6px 12px;
+  background: transparent;
+  border: 1px solid #667eea;
+  color: #667eea;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.health-check-btn:hover:not(:disabled) {
+  background: #667eea;
+  color: white;
+}
+
+.health-check-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ============================================================================
+   API GROUPS
+   ============================================================================ */
+
+.api-group {
+  padding: 8px;
+}
+
+.api-group-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #667eea;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 8px 12px;
+  margin: 8px 0 4px 0;
+}
+
+/* ============================================================================
+   API OPTION
+   ============================================================================ */
+
+.api-option {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  margin: 4px 0;
+  background: #f8f9fa;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.api-option:hover {
+  background: #f0f2f5;
+  border-color: #ecf0f1;
+}
+
+.api-option.selected {
+  background: #f0f2ff;
+  border-color: #667eea;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+}
+
+.api-option-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.api-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+.api-type-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  background: #667eea;
+  color: white;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.api-option-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.api-description {
+  color: #7f8c8d;
+  flex: 1;
+}
+
+.api-port {
+  color: #95a5a6;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.api-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.status-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.status-text {
+  color: inherit;
+}
+
+.check-icon {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  color: #10b981;
+  font-weight: 700;
+}
+
+/* ============================================================================
+   FOOTER
+   ============================================================================ */
+
+.api-selector-footer {
+  padding: 12px 16px;
+  border-top: 1px solid #ecf0f1;
+  background: white;
+  border-radius: 0 0 10px 10px;
+  position: sticky;
+  bottom: 0;
+  z-index: 10001;
+}
+
+.api-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #7f8c8d;
+}
+
+.api-info svg {
+  flex-shrink: 0;
+  color: #f39c12;
+}
+
+/* ============================================================================
+   OVERLAY
+   ============================================================================ */
+
+.api-selector-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+}
+
+/* ============================================================================
+   RESPONSIVE DESIGN
+   ============================================================================ */
+
+@media (max-width: 768px) {
+  .api-selector-button {
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+
+  .api-selector-label {
+    display: none;
+  }
+
+  .api-selector-dropdown {
+    width: calc(100vw - 30px);
+    max-width: 350px;
+    max-height: 60vh;
+  }
+
+  .api-option {
+    padding: 10px;
+  }
+
+  .api-name {
+    font-size: 12px;
+  }
+
+  .api-description {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  .api-selector-dropdown {
+    width: calc(100vw - 20px);
+    max-width: 320px;
+    max-height: 55vh;
+  }
+
+  .api-option-details {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .api-port {
+    align-self: flex-start;
+  }
+
+  .api-selector-header {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .health-check-btn {
+    width: 100%;
+  }
+}

@@ -16,12 +16,14 @@ const swaggerSpec = require('./config/swagger');
 const DynamicApiService = require('./services/dynamicApiService');
 const ProcedureMetadataExtractor = require('./services/procedureMetadataExtractor');
 const TransactionExecutor = require('./services/transactionExecutor');
+const { initializeEmailService } = require('./services/emailService');
 
 // Import controllers
 const DynamicApiController = require('./controllers/dynamicApiController');
 
 // Import routes
 const { registerApiRoutes } = require('./routes/apiRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 // Import middleware
 const { notFoundHandler, errorHandler } = require('./middleware/errorHandler');
@@ -58,7 +60,8 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-
+// Initialize email service
+initializeEmailService();
 // ============================================================================
 // DATABASE CONNECTION POOLS
 // ============================================================================
@@ -129,6 +132,9 @@ const apiRouter = express.Router();
 
 // Register all API routes
 registerApiRoutes(apiRouter, dynamicApiController);
+
+// Mount auth routes
+app.use('/api/v1.0/auth', authRoutes);
 
 // Mount router
 app.use(apiRouter);
