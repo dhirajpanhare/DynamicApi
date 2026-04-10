@@ -51,8 +51,8 @@ export const API_CONFIGS = {
     name: "Django + MSSQL",
     type: "django",
     database: "mssql",
-    baseURL: getEnv("DJANGO_MSSQL_URL", "http://localhost:8001"),
-    port: 8001,
+    baseURL: getEnv("DJANGO_MSSQL_URL", "http://localhost:8000"),
+    port: 8000,
     description: "Python Django with SQL Server",
     endpoints: {
       execute: "/api/v1.0/DynamicApi/DynamicApiExecute",
@@ -67,8 +67,8 @@ export const API_CONFIGS = {
     name: "Django + MySQL",
     type: "django",
     database: "mysql",
-    baseURL: getEnv("DJANGO_MYSQL_URL", "http://localhost:8000"),
-    port: 8000,
+    baseURL: getEnv("DJANGO_MYSQL_URL", "http://localhost:8001"),
+    port: 8001,
     description: "Python Django with MySQL",
     endpoints: {
       execute: "/api/v1.0/DynamicApi/DynamicApiExecute",

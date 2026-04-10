@@ -217,6 +217,173 @@ router.get('/procedures', listProcedures);
 
 /**
  * @swagger
+ * /api/v1.0/DynamicApi/ListProcedures:
+ *   get:
+ *     tags:
+ *       - Metadata
+ *     summary: List All Collections (Standard Endpoint)
+ *     description: Get a list of all available MongoDB collections (equivalent to procedures)
+ *     responses:
+ *       200:
+ *         description: Collections listed successfully
+ *       500:
+ *         description: Server error
+ */
+router.get('/ListProcedures', listProcedures);
+
+/**
+ * @swagger
+ * /api/v1.0/DynamicApi/GetProcedureMetadata/{collectionName}:
+ *   get:
+ *     tags:
+ *       - Metadata
+ *     summary: Get Collection Metadata (Standard Endpoint)
+ *     description: Retrieve parameter metadata and Swagger schema for a MongoDB collection
+ *     parameters:
+ *       - in: path
+ *         name: collectionName
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Name of the MongoDB collection
+ *     responses:
+ *       200:
+ *         description: Metadata retrieved successfully
+ *       400:
+ *         description: Invalid collection name
+ *       500:
+ *         description: Server error
+ */
+router.get('/GetProcedureMetadata/:collectionName', getCollectionMetadata);
+
+/**
+ * @swagger
+ * /api/v1.0/DynamicApi/GeneratePayload:
+ *   post:
+ *     tags:
+ *       - Utilities
+ *     summary: Generate Payload
+ *     description: Generate a sample payload for MongoDB commands (note MongoDB uses different format than SQL stored procedures)
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               collectionName:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Payload generated successfully
+ *       400:
+ *         description: Invalid request
+ *       500:
+ *         description: Server error
+ */
+router.post('/GeneratePayload', (req, res) => {
+  // MongoDB doesn't have stored procedures, so this endpoint returns a MongoDB operation template
+  const { collectionName } = req.body;
+  
+  if (!collectionName) {
+    return res.status(400).json({
+      status: false,
+      message: 'collectionName is required',
+      data: null
+    });
+  }
+
+  // Return a sample MongoDB operation payload template
+  return res.status(200).json({
+    status: true,
+    message: 'Sample MongoDB operation payload',
+    data: {
+      operationType: 'read',
+      collectionName: collectionName,
+      parameters: {
+        query: {},
+        options: {
+          limit: 10,
+          skip: 0
+        }
+      },
+      // Sample payloads for different operations
+      examples: {
+        create: {
+          operationType: 'create',
+          collectionName: collectionName,
+          parameters: {
+            documents: [
+              { name: 'Document 1', value: 100 }
+            ]
+          }
+        },
+        read: {
+          operationType: 'read',
+          collectionName: collectionName,
+          parameters: {
+            query: { status: 'active' },
+            options: { limit: 10, skip: 0 }
+          }
+        },
+        update: {
+          operationType: 'update',
+          collectionName: collectionName,
+          parameters: {
+            query: { _id: 'document_id' },
+            update: { name: 'Updated Name' }
+          }
+        },
+        delete: {
+          operationType: 'delete',
+          collectionName: collectionName,
+          parameters: {
+            query: { _id: 'document_id' }
+          }
+        }
+      }
+    }
+  });
+});
+
+/**
+ * @swagger
+ * /api/v1.0/DynamicApi/Health:
+ *   get:
+ *     tags:
+ *       - Health
+ *     summary: Health Check
+ *     description: Check if the API service is running and healthy
+ *     responses:
+ *       200:
+ *         description: Service is healthy
+ *       500:
+ *         description: Service is unhealthy
+ */
+router.get('/Health', (req, res) => {
+  try {
+    return res.status(200).json({
+      status: true,
+      message: 'MongoDB API is healthy',
+      timestamp: new Date().toISOString(),
+      uptime: process.uptime(),
+      data: {
+        service: 'Express + MongoDB Dynamic API',
+        version: '2.0.0',
+        environment: process.env.NODE_ENV || 'development'
+      }
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: false,
+      message: 'Health check failed',
+      data: null
+    });
+  }
+});
+
+/**
+ * @swagger
  * /api/v1.0/DynamicTransactionApi/DynamicTransactionApiExecute:
  *   post:
  *     tags:

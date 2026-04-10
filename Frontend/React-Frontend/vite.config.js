@@ -37,10 +37,18 @@ export default defineConfig({
     },
     rollupOptions: {
       output: {
-        manualChunks: {
-          'vendor': ['react', 'react-dom', 'react-router-dom'],
-          'coreui': ['@coreui/react'],
-          'charts': ['recharts', 'lucide-react'],
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('react')) {
+              return 'vendor';
+            }
+            if (id.includes('@coreui')) {
+              return 'coreui';
+            }
+            if (id.includes('recharts') || id.includes('lucide-react')) {
+              return 'charts';
+            }
+          }
         },
       },
     },
