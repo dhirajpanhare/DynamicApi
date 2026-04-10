@@ -148,17 +148,6 @@ const Login = () => {
             </button>
           </form>
 
-          {/* Features */}
-          <div className="login-features">
-            <h3>What's Included</h3>
-            <ul>
-              <li>✓ Multi-Framework API Testing</li>
-              <li>✓ Email-only Authentication</li>
-              <li>✓ No Account Creation Required</li>
-              <li>✓ Local Data Storage</li>
-              <li>✓ Instant Access to Dashboard</li>
-            </ul>
-          </div>
 
           {/* Footer */}
           <div className="login-footer">
