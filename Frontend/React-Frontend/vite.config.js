@@ -39,15 +39,7 @@ export default defineConfig({
       output: {
         manualChunks(id) {
           if (id.includes('node_modules')) {
-            if (id.includes('react')) {
-              return 'vendor';
-            }
-            if (id.includes('@coreui')) {
-              return 'coreui';
-            }
-            if (id.includes('recharts') || id.includes('lucide-react')) {
-              return 'charts';
-            }
+            return 'vendor';
           }
         },
       },
