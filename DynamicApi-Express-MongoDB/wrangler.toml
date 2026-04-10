@@ -1,45 +1,26 @@
 name = "dynamic-api-mongodb"
 type = "javascript"
-account_id = "YOUR_CLOUDFLARE_ACCOUNT_ID"
-workers_dev = true
+account_id = "4ca26ecdb0c4f07d9bc0c2aa7f2f206e"
 main = "worker.js"
-compatibility_date = "2024-01-01"
-compatibility_flags = ["nodejs_compat"]
+compatibility_date = "2024-12-01"
+compatibility_flags = ["nodejs_compat", "nodejs_compat_v2"]
 
 [env.production]
 name = "dynamic-api-mongodb-prod"
-route = "api.yourdomain.com/mongodb/*"
-zone_id = "YOUR_ZONE_ID"
+route = "example.com/api/mongodb/*"
+zone_id = "YOUR_CLOUDFLARE_ZONE_ID"
 
 [build]
-command = "npm install"
+command = "npm run build || echo 'No build script'"
 cwd = "."
 
 [env.production.vars]
 NODE_ENV = "production"
-MONGODB_URI = "mongodb+srv://admin:YOUR_PASSWORD@cluster0.xxxxx.mongodb.net/dynamicapi_prod?retryWrites=true&w=majority"
-JWT_SECRET = "your-secure-random-secret-key-here-min-32-chars"
+LOG_LEVEL = "info"
+PORT = "8787"
 OTP_EMAIL_FROM = "noreply@yourdomain.com"
 SMTP_HOST = "smtp.gmail.com"
 SMTP_PORT = "587"
 SMTP_USER = "your-email@gmail.com"
-SMTP_PASSWORD = "your-app-password"
-ALLOWED_ORIGINS = "https://your-vercel-domain.vercel.app"
-LOG_LEVEL = "info"
+ALLOWED_ORIGINS = "https://dynamic-api-orpin.vercel.app/"
 
-[env.development.vars]
-NODE_ENV = "development"
-MONGODB_URI = "mongodb://localhost:27017/dynamicapi_dev"
-JWT_SECRET = "dev-secret-key-not-used-in-dev"
-OTP_EMAIL_FROM = "dev@localhost"
-SMTP_HOST = "localhost"
-SMTP_PORT = "1025"
-LOG_LEVEL = "debug"
-
-[[r2_buckets]]
-binding = "BUCKET"
-bucket_name = "dynamic-api-logs"
-jurisdiction = "eu"
-
-[triggers]
-crons = ["0 0 * * *"]
