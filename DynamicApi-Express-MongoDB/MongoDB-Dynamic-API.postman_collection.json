@@ -1,0 +1,424 @@
+{
+  "info": {
+    "_postman_id": "mongodb-api-collection",
+    "name": "MongoDB Express Dynamic API",
+    "description": "Complete Postman collection for testing MongoDB Express Dynamic API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health & Status",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3001/api/v1.0/DynamicApi/Health",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "v1.0", "DynamicApi", "Health"]
+            }
+          }
+        },
+        {
+          "name": "List All Collections",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3001/api/v1.0/DynamicApi/ListProcedures",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "v1.0", "DynamicApi", "ListProcedures"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Collections Management",
+      "item": [
+        {
+          "name": "Get Collection Metadata",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3001/api/v1.0/DynamicApi/GetProcedureMetadata/users",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "v1.0", "DynamicApi", "GetProcedureMetadata", "users"]
+            }
+          }
+        },
+        {
+          "name": "Get Collection Schema",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3001/api/v1.0/DynamicApi/Collections/users/Schema",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "v1.0", "DynamicApi", "Collections", "users", "Schema"]
+            }
+          }
+        },
+        {
+          "name": "List Available Collections",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3001/api/v1.0/DynamicApi/Collections",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "v1.0", "DynamicApi", "Collections"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "CREATE Operations (JSON Format)",
+      "item": [
+        {
+          "name": "Create Single User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"operationType\": \"create\",\n  \"collectionName\": \"users\",\n  \"parameters\": {\n    \"documents\": [\n      {\n        \"name\": \"John Doe\",\n        \"email\": \"john@example.com\",\n        \"status\": \"active\"\n      }\n    ]\n  }\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/v1.0/DynamicApi/Operations",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "v1.0", "DynamicApi", "Operations"]
+            }
+          }
+        },
+        {
+          "name": "Create Multiple Users",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"operationType\": \"create\",\n  \"collectionName\": \"users\",\n  \"parameters\": {\n    \"documents\": [\n      {\n        \"name\": \"Jane Smith\",\n        \"email\": \"jane@example.com\",\n        \"status\": \"active\"\n      },\n      {\n        \"name\": \"Bob Johnson\",\n        \"email\": \"bob@example.com\",\n        \"status\": \"inactive\"\n      }\n    ]\n  }\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/v1.0/DynamicApi/Operations",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "v1.0", "DynamicApi", "Operations"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "READ Operations (JSON Format)",
+      "item": [
+        {
+          "name": "Read All Users",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"operationType\": \"read\",\n  \"collectionName\": \"users\",\n  \"parameters\": {\n    \"query\": {},\n    \"options\": {\n      \"limit\": 10,\n      \"skip\": 0\n    }\n  }\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/v1.0/DynamicApi/Operations",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "v1.0", "DynamicApi", "Operations"]
+            }
+          }
+        },
+        {
+          "name": "Read Active Users Only",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"operationType\": \"read\",\n  \"collectionName\": \"users\",\n  \"parameters\": {\n    \"query\": { \"status\": \"active\" },\n    \"options\": {\n      \"limit\": 20,\n      \"skip\": 0,\n      \"sort\": { \"name\": 1 }\n    }\n  }\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/v1.0/DynamicApi/Operations",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "v1.0", "DynamicApi", "Operations"]
+            }
+          }
+        },
+        {
+          "name": "Read With Count",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"operationType\": \"read\",\n  \"collectionName\": \"users\",\n  \"parameters\": {\n    \"query\": {},\n    \"options\": {\n      \"limit\": 10,\n      \"skip\": 0,\n      \"countTotal\": true\n    }\n  }\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/v1.0/DynamicApi/Operations",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "v1.0", "DynamicApi", "Operations"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "UPDATE Operations (JSON Format)",
+      "item": [
+        {
+          "name": "Update Single User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"operationType\": \"update\",\n  \"collectionName\": \"users\",\n  \"parameters\": {\n    \"query\": { \"email\": \"john@example.com\" },\n    \"update\": { \"status\": \"inactive\", \"updatedAt\": \"2026-04-10T00:00:00Z\" },\n    \"options\": {\n      \"upsert\": false,\n      \"multi\": false\n    }\n  }\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/v1.0/DynamicApi/Operations",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "v1.0", "DynamicApi", "Operations"]
+            }
+          }
+        },
+        {
+          "name": "Update Multiple Users",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"operationType\": \"update\",\n  \"collectionName\": \"users\",\n  \"parameters\": {\n    \"query\": { \"status\": \"inactive\" },\n    \"update\": { \"lastChecked\": \"2026-04-10T00:00:00Z\" },\n    \"options\": {\n      \"upsert\": false,\n      \"multi\": true\n    }\n  }\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/v1.0/DynamicApi/Operations",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "v1.0", "DynamicApi", "Operations"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "DELETE Operations (JSON Format)",
+      "item": [
+        {
+          "name": "Delete Single User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"operationType\": \"delete\",\n  \"collectionName\": \"users\",\n  \"parameters\": {\n    \"query\": { \"email\": \"test@example.com\" },\n    \"options\": {\n      \"multi\": false\n    }\n  }\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/v1.0/DynamicApi/Operations",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "v1.0", "DynamicApi", "Operations"]
+            }
+          }
+        },
+        {
+          "name": "Delete Multiple Users",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"operationType\": \"delete\",\n  \"collectionName\": \"users\",\n  \"parameters\": {\n    \"query\": { \"status\": \"deleted\" },\n    \"options\": {\n      \"multi\": true\n    }\n  }\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/v1.0/DynamicApi/Operations",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "v1.0", "DynamicApi", "Operations"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "AGGREGATE Operations",
+      "item": [
+        {
+          "name": "Count by Status",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"operationType\": \"aggregate\",\n  \"collectionName\": \"users\",\n  \"parameters\": {\n    \"pipeline\": [\n      { \"$group\": { \"_id\": \"$status\", \"count\": { \"$sum\": 1 } } },\n      { \"$sort\": { \"count\": -1 } }\n    ]\n  }\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/v1.0/DynamicApi/Operations",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "v1.0", "DynamicApi", "Operations"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Legacy String Format",
+      "item": [
+        {
+          "name": "Execute with String Format",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"stringOne\": \"operationType=read\",\n  \"stringTwo\": \"|\",\n  \"stringThree\": \"=\",\n  \"stringFour\": \"users\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/v1.0/DynamicApi/DynamicApiExecute",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "v1.0", "DynamicApi", "DynamicApiExecute"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Utility Endpoints",
+      "item": [
+        {
+          "name": "Generate Payload",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"collectionName\": \"users\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/v1.0/DynamicApi/GeneratePayload",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "v1.0", "DynamicApi", "GeneratePayload"]
+            }
+          }
+        },
+        {
+          "name": "Validate Operation",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"operationType\": \"read\",\n  \"collectionName\": \"users\",\n  \"parameters\": {}\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/v1.0/DynamicApi/ValidateOperation",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "v1.0", "DynamicApi", "ValidateOperation"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

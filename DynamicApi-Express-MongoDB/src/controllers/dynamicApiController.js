@@ -70,12 +70,34 @@ const executeOperation = async (req, res) => {
       keyValueSeparator = body.keyValueSeparator || '=';
     }
     // Legacy format (v1 - string delimited)
-    else if (body.stringOne && body.stringFour) {
-      operationType = body.stringOne;
+    else if (body.stringOne !== undefined && body.stringFour !== undefined) {
+      // stringOne contains delimited parameter string (e.g., "operationType=read|param2=value2")
+      // stringFour is the collection name (fallback if not in stringOne)
+      // stringTwo is parameter separator, stringThree is key-value separator
+      
       collectionName = body.stringFour;
-      parameters = '';
+      parameters = body.stringOne;  // Pass full parameter string to be parsed
       paramSeparator = body.stringTwo || '|';
       keyValueSeparator = body.stringThree || '=';
+      
+      // Extract operationType from the parameter string if present
+      // If stringOne contains "operationType=read|...", extract "read"
+      // Otherwise use "read" as default operation type for backward compatibility
+      const paramStr = String(body.stringOne || '');
+      const opTypeMatch = paramStr.split(paramSeparator || '|')[0];
+      
+      if (opTypeMatch && opTypeMatch.includes('=')) {
+        const [key, val] = opTypeMatch.split(keyValueSeparator || '=');
+        if (key === 'operationType') {
+          operationType = val;
+        } else {
+          // If operationType is not in parameters, use first parameter as operation type for backward compatibility
+          operationType = 'read'; // Default to read
+        }
+      } else {
+        // If no key=value format, assume it's an operation type directly for backward compatibility
+        operationType = paramStr || 'read';
+      }
     } else {
       return res.status(400).json({
         status: false,
@@ -118,7 +140,7 @@ const executeOperation = async (req, res) => {
 
     // Prepare response
     const responseData = {
-      status: result.success,
+      status: result.status,
       message: result.message,
       data: result.data || null,
     };
@@ -127,7 +149,15 @@ const executeOperation = async (req, res) => {
       responseData.metadata = result.metadata;
     }
 
-    const statusCode = result.success ? 200 : 400;
+    if (result.executionTime !== undefined) {
+      responseData.executionTime = result.executionTime;
+    }
+
+    if (result.cached !== undefined) {
+      responseData.cached = result.cached;
+    }
+
+    const statusCode = result.status ? 200 : 400;
     return res.status(statusCode).json(responseData);
   } catch (error) {
     logger.error(`Error in executeOperation controller: ${error.message}`);
@@ -383,14 +413,14 @@ const executeTransaction = async (req, res) => {
 
     // Prepare response
     const responseData = {
-      status: result.success,
+      status: result.status,
       message: result.message,
       executionTime: result.executionTime,
       cached: false,
       data: result.data || null,
     };
 
-    const statusCode = result.success ? 200 : 500;
+    const statusCode = result.status ? 200 : 400;
     return res.status(statusCode).json(responseData);
 
   } catch (error) {
