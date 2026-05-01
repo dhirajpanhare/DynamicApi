@@ -26,17 +26,18 @@ SECURE_CONTENT_SECURITY_POLICY = {
 }
 
 # Database - Production MSSQL
+# Support both PROD_ prefixed variables (for production) and DB_ variables (for backward compatibility)
 DATABASES = {
     'default': {
         'ENGINE': 'mssql',
-        'NAME': config('DB_NAME'),
-        'USER': config('DB_USER'),
-        'PASSWORD': config('DB_PASSWORD'),
-        'HOST': config('DB_HOST'),
-        'PORT': config('DB_PORT', default='1433'),
+        'NAME': config('PROD_DB_NAME', default=config('DB_NAME')),
+        'USER': config('PROD_DB_USER', default=config('DB_USER')),
+        'PASSWORD': config('PROD_DB_PASSWORD', default=config('DB_PASSWORD')),
+        'HOST': config('PROD_DB_HOST', default=config('DB_HOST')),
+        'PORT': config('PROD_DB_PORT', default=config('DB_PORT', default='1433')),
         'OPTIONS': {
-            'driver': config('DB_DRIVER', default='ODBC Driver 17 for SQL Server'),
-            'TrustServerCertificate': config('DB_TRUST_SERVER_CERT', default='no'),
+            'driver': config('PROD_DB_DRIVER', default=config('DB_DRIVER', default='ODBC Driver 17 for SQL Server')),
+            'TrustServerCertificate': config('PROD_DB_TRUST_SERVER_CERT', default=config('DB_TRUST_SERVER_CERT', default='no')),
             'connect_timeout': 10,
         },
         'CONN_MAX_AGE': 600,
