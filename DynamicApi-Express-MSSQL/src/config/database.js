@@ -3,15 +3,18 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
+// Support both direct DB_ variables and PROD_ prefixed for production
+const isProduction = process.env.NODE_ENV === 'production';
+
 const config = {
-    server: process.env.DB_HOST || '127.0.0.1',
-    port: parseInt(process.env.DB_PORT) || 1433,
-    database: process.env.DB_NAME || 'DynamicApiDb',
-    user: process.env.DB_USER || 'sa',
-    password: process.env.DB_PASSWORD,
+    server: process.env[isProduction ? 'PROD_DB_HOST' : 'DB_HOST'] || '127.0.0.1',
+    port: parseInt(process.env[isProduction ? 'PROD_DB_PORT' : 'DB_PORT']) || 1433,
+    database: process.env[isProduction ? 'PROD_DB_NAME' : 'DB_NAME'] || 'DynamicApiDb',
+    user: process.env[isProduction ? 'PROD_DB_USER' : 'DB_USER'] || 'sa',
+    password: process.env[isProduction ? 'PROD_DB_PASSWORD' : 'DB_PASSWORD'],
     options: {
-        trustServerCertificate: process.env.DB_TRUST_SERVER_CERT !== 'false',
-        encrypt: process.env.DB_ENCRYPT === 'true',
+        trustServerCertificate: process.env[isProduction ? 'PROD_DB_TRUST_SERVER_CERT' : 'DB_TRUST_SERVER_CERT'] !== 'false',
+        encrypt: process.env[isProduction ? 'PROD_DB_ENCRYPT' : 'DB_ENCRYPT'] === 'true',
     },
     pool: {
         max: 10,
