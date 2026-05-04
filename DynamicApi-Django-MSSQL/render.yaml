@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: dynamicapi-django
+    env: python
+    pythonVersion: 3.11
+    plan: starter
+    buildCommand: >
+      pip install --upgrade pip setuptools &&
+      pip install -r requirements.txt &&
+      DJANGO_SETTINGS_MODULE=config.settings.production python manage.py migrate &&
+      DJANGO_SETTINGS_MODULE=config.settings.production python manage.py collectstatic --noinput
+    startCommand: >
+      gunicorn config.wsgi:application --bind 0.0.0.0:$PORT --workers 4 --timeout 120
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: config.settings.production
+      - key: PROD_DB_HOST
+        value: DynamicApi-DB.mssql.somee.com
+      - key: PROD_DB_PORT
+        value: "1433"
+      - key: PROD_DB_NAME
+        value: DynamicApi-DB
+      - key: PROD_DB_USER
+        value: dhirajpanahre_SQLLogin_1
+      - key: PROD_DB_PASSWORD
+        scope: secret
+      - key: PROD_DB_TRUST_SERVER_CERT
+        value: "yes"
+      - key: PROD_DB_DRIVER
+        value: "ODBC Driver 17 for SQL Server"
