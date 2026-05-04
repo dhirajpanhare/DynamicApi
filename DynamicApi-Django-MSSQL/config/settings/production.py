@@ -29,7 +29,7 @@ SECURE_CONTENT_SECURITY_POLICY = {
 # Support both PROD_ prefixed variables (for production) and DB_ variables (for backward compatibility)
 DATABASES = {
     'default': {
-        'ENGINE': 'django_pymssql',
+        'ENGINE': 'sqlserver_pymssql',
         'NAME': config('PROD_DB_NAME', default=config('DB_NAME')),
         'USER': config('PROD_DB_USER', default=config('DB_USER')),
         'PASSWORD': config('PROD_DB_PASSWORD', default=config('DB_PASSWORD')),
